@@ -1,41 +1,34 @@
 import React, { useState } from 'react';
 import './LandingPage.css';
-
-import AthleteSignupForm from './AthleteSignupForm';
-import AthleteQuestionnaire from './AthleteQuestionnaire';
-import AthleteProfile from './AthleteProfile';
-import { saveAthleteData } from './api';
+import AthleteSignupPopup from './AthleteSignupPopup';
+import StudentLoginPopup from './StudentLoginPopup';
 
 function LandingPage() {
   const [activeForm, setActiveForm] = useState('login');
+  const [showSignupPopup, setShowSignupPopup] = useState(false);
+  const [showLoginPopup, setShowLoginPopup] = useState(false);
 
   const switchForm = (formName) => {
     setActiveForm(formName);
   };
 
-  const [showAthleteSignupForm, setShowAthleteSignupForm] = useState(false);
-  const [showAthleteQuestionnaire, setShowAthleteQuestionnaire] = useState(false);
-  const [showAthleteProfile, setShowAthleteProfile] = useState(false);
-  const [athleteData, setAthleteData] = useState(null);
-
-  const handleAthleteSignup = (formData) => {
-    setAthleteData(formData);
-    setShowAthleteSignupForm(false);
-    setShowAthleteQuestionnaire(true);
+  const handleSignupClick = (e) => {
+    e.preventDefault(); // Prevent the default form submission behavior
+    setShowSignupPopup(true);
   };
 
-  const handleAthleteQuestionnaire = async (questionnaireData) => {
-    try {
-      const updatedAthleteData = { ...athleteData, ...questionnaireData };
-      await saveAthleteData(updatedAthleteData);
-      setAthleteData(updatedAthleteData);
-      setShowAthleteQuestionnaire(false);
-      setShowAthleteProfile(true);
-    } catch (error) {
-      console.error('Error saving athlete data:', error);
-    }
+  const handleSignupClose = () => {
+    setShowSignupPopup(false);
   };
-  
+
+  const handleLoginClick = (e) => {
+    e.preventDefault();
+    setShowLoginPopup(true);
+  };
+
+  const handleLoginClose = () => {
+    setShowLoginPopup(false);
+  };
 
   return (
     <div className="landing-page">
@@ -43,7 +36,7 @@ function LandingPage() {
         <img src="/landing.jpg" alt="Landing Page" className="cover-image" />
       </div>
       <div className="auth-section">
-        <h1 className="section-title">Are you a Athelete or Coach?</h1>
+        <h1 className="section-title">Are you an Athlete or Coach?</h1>
         <div className="forms">
           <div className={`form-wrapper ${activeForm === 'login' ? 'is-active' : ''}`}>
             <button
@@ -51,12 +44,16 @@ function LandingPage() {
               className="switcher switcher-login"
               onClick={() => switchForm('login')}
             >
-              Athelete
+              Athlete
               <span className="underline"></span>
             </button>
             <form className="form form-login">
-              <button className="auth-button signup-button">Sign Up</button>
-              <button className="auth-button login-button">Login</button>
+              <button className="auth-button signup-button" onClick={handleSignupClick}>
+                Sign Up
+              </button>
+              <button className="auth-button login-button" onClick={handleLoginClick}>
+                Login
+              </button>
             </form>
           </div>
 
@@ -76,13 +73,8 @@ function LandingPage() {
           </div>
         </div>
       </div>
-      {showAthleteSignupForm && (
-        <AthleteSignupForm onSubmit={handleAthleteSignup} />
-      )}
-      {showAthleteQuestionnaire && (
-        <AthleteQuestionnaire onSubmit={handleAthleteQuestionnaire} />
-      )}
-      {showAthleteProfile && <AthleteProfile athleteData={athleteData} />}
+      {showSignupPopup && <AthleteSignupPopup onClose={handleSignupClose} />}
+      {showLoginPopup && <StudentLoginPopup onClose={handleLoginClose} />}
     </div>
   );
 }
