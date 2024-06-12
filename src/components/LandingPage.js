@@ -2,32 +2,54 @@ import React, { useState } from 'react';
 import './LandingPage.css';
 import AthleteSignupPopup from './AthleteSignupPopup';
 import StudentLoginPopup from './StudentLoginPopup';
+import CoachSignupPopup from './CoachSignupPopup';
+import CoachLoginPopup from './CoachLoginPopup';
 
 function LandingPage() {
   const [activeForm, setActiveForm] = useState('login');
-  const [showSignupPopup, setShowSignupPopup] = useState(false);
-  const [showLoginPopup, setShowLoginPopup] = useState(false);
+  const [showAthleteSignupPopup, setShowAthleteSignupPopup] = useState(false);
+  const [showStudentLoginPopup, setShowStudentLoginPopup] = useState(false);
+  const [showCoachSignupPopup, setShowCoachSignupPopup] = useState(false);
+  const [showCoachLoginPopup, setShowCoachLoginPopup] = useState(false);
 
   const switchForm = (formName) => {
     setActiveForm(formName);
   };
 
-  const handleSignupClick = (e) => {
-    e.preventDefault(); // Prevent the default form submission behavior
-    setShowSignupPopup(true);
-  };
-
-  const handleSignupClose = () => {
-    setShowSignupPopup(false);
-  };
-
-  const handleLoginClick = (e) => {
+  const handleAthleteSignupClick = (e) => {
     e.preventDefault();
-    setShowLoginPopup(true);
+    setShowAthleteSignupPopup(true);
   };
 
-  const handleLoginClose = () => {
-    setShowLoginPopup(false);
+  const handleAthleteSignupClose = () => {
+    setShowAthleteSignupPopup(false);
+  };
+
+  const handleStudentLoginClick = (e) => {
+    e.preventDefault();
+    setShowStudentLoginPopup(true);
+  };
+
+  const handleStudentLoginClose = () => {
+    setShowStudentLoginPopup(false);
+  };
+
+  const handleCoachSignupClick = (e) => {
+    e.preventDefault();
+    setShowCoachSignupPopup(true);
+  };
+
+  const handleCoachSignupClose = () => {
+    setShowCoachSignupPopup(false);
+  };
+
+  const handleCoachLoginClick = (e) => {
+    e.preventDefault();
+    setShowCoachLoginPopup(true);
+  };
+
+  const handleCoachLoginClose = () => {
+    setShowCoachLoginPopup(false);
   };
 
   return (
@@ -48,10 +70,10 @@ function LandingPage() {
               <span className="underline"></span>
             </button>
             <form className="form form-login">
-              <button className="auth-button signup-button" onClick={handleSignupClick}>
+              <button className="auth-button signup-button" onClick={handleAthleteSignupClick}>
                 Sign Up
               </button>
-              <button className="auth-button login-button" onClick={handleLoginClick}>
+              <button className="auth-button login-button" onClick={handleStudentLoginClick}>
                 Login
               </button>
             </form>
@@ -67,14 +89,20 @@ function LandingPage() {
               <span className="underline"></span>
             </button>
             <form className="form form-signup">
-              <button className="auth-button signup-button">Sign Up</button>
-              <button className="auth-button login-button">Login</button>
+              <button className="auth-button signup-button" onClick={handleCoachSignupClick}>
+                Sign Up
+              </button>
+              <button className="auth-button login-button" onClick={handleCoachLoginClick}>
+                Login
+              </button>
             </form>
           </div>
         </div>
       </div>
-      {showSignupPopup && <AthleteSignupPopup onClose={handleSignupClose} />}
-      {showLoginPopup && <StudentLoginPopup onClose={handleLoginClose} />}
+      {showAthleteSignupPopup && <AthleteSignupPopup onClose={handleAthleteSignupClose} />}
+      {showStudentLoginPopup && <StudentLoginPopup onClose={handleStudentLoginClose} />}
+      {showCoachSignupPopup && <CoachSignupPopup onClose={handleCoachSignupClose} />}
+      {showCoachLoginPopup && <CoachLoginPopup onClose={handleCoachLoginClose} />}
     </div>
   );
 }

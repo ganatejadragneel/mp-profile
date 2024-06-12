@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './DataSummaryPage.css';
 import { API_URL } from './api'; // Import the API_URL constant
@@ -9,6 +9,12 @@ function DataSummaryPage() {
   const athleteData = location.state?.athleteData || {};
   const [profileImage, setProfileImage] = useState(null);
   const [fileToUpload, setFileToUpload] = useState(null);
+
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    navigate('/');
+  };
 
   useEffect(() => {
     const fetchProfileImage = async () => {
@@ -80,7 +86,7 @@ function DataSummaryPage() {
         </div>
         <div className="profile-actions">
           <button>Edit Profile</button>
-          <button>Log Out</button>
+          <button onClick={handleLogout}>Log Out</button>
         </div>
       </div>
     </div>
