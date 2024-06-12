@@ -6,6 +6,8 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
+const { upload, gfs } = require('./upload');
+
 // MongoDB connection string
 const MONGODB_URI = 'mongodb+srv://ganateja:qwerty12345@mpcluster.q2u7p6t.mongodb.net/athlete_data?retryWrites=true&w=majority&appName=MPCluster';
 
@@ -30,15 +32,21 @@ const athleteSchema = new mongoose.Schema({
   injuries: String,
   ableToBalance: String,
   coachingAspect: String,
+  profileImage: { type: mongoose.Schema.Types.ObjectId, ref: 'fs.files' },
 });
 
 // Create a model based on the schema
 const Athlete = mongoose.model('Athlete', athleteSchema);
 
 // API endpoint to save athlete data
-app.post('/api/athletes', async (req, res) => {
+app.post('/api/athletes', upload.single('profileImage'), async (req, res) => {
   try {
     const athleteData = req.body;
+    if (req.file) {
+      athleteData.profileImage = req.file.id;
+    } else {
+      athleteData.profileImage = null;
+    }
     const athlete = new Athlete(athleteData);
     await athlete.save();
     res.status(201).json(athlete);
@@ -70,4 +78,18 @@ app.post('/api/athletes/login', async (req, res) => {
 const port = process.env.PORT || 5001;
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
+});
+
+app.get('/api/athletes/:id/image', async (req, res) => {
+  try {
+    const file = await gfs.files.findOne({ _id: mongoose.Types.ObjectId(req.params.id) });
+    if (!file) {
+      return res.status(404).json({ error: 'Image not found' });
+    }
+    const readStream = gfs.createReadStream(file.filename);
+    readStream.pipe(res);
+  } catch (error) {
+    console.error('Error retrieving image:', error);
+    res.status(500).json({ error: 'An error occurred' });
+  }
 });
