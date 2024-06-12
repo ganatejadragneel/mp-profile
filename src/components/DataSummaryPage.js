@@ -1,45 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useLocation } from 'react-router-dom';
-import { saveAthleteData } from './api';
 import './DataSummaryPage.css';
 
 function DataSummaryPage() {
   const location = useLocation();
   const athleteData = location.state?.athleteData || {};
-  const [isLoading, setIsLoading] = useState(true);
-  const [isError, setIsError] = useState(false);
-
-  useEffect(() => {
-    const saveData = async () => {
-      try {
-        await saveAthleteData(athleteData);
-        setIsLoading(false);
-      } catch (error) {
-        console.error('Error saving athlete data:', error);
-        setIsLoading(false);
-        setIsError(true);
-      }
-    };
-
-    saveData();
-  }, [athleteData]);
-
-  if (isLoading) {
-    return (
-      <div className="loading-page">
-        <h2>Loading...</h2>
-      </div>
-    );
-  }
-
-  if (isError) {
-    return (
-      <div className="error-page">
-        <h2>Error Signing Up</h2>
-        <p>We are sorry for the inconvenience. Please try again later.</p>
-      </div>
-    );
-  }
 
   return (
     <div className="data-summary-page">

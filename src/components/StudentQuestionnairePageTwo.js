@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { saveAthleteData } from './api';
 import './StudentQuestionnairePageTwo.css';
 
 function StudentQuestionnairePageTwo() {
@@ -12,8 +13,9 @@ function StudentQuestionnairePageTwo() {
   const [ableToBalance, setAbleToBalance] = useState('');
   const [coachingAspect, setCoachingAspect] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log('Student questionnaire page two submitted');
     // Save the questionnaire data to the athlete data object
     const questionnaireData = {
       performanceAnxiety,
@@ -22,8 +24,15 @@ function StudentQuestionnairePageTwo() {
       coachingAspect,
     };
     const updatedAthleteData = { ...athleteData, ...questionnaireData };
-    // Navigate to the data summary page
-    navigate('/data-summary', { state: { athleteData: updatedAthleteData } });
+    
+    try {
+      await saveAthleteData(updatedAthleteData);
+      // Navigate to the data summary page
+      navigate('/data-summary', { state: { athleteData: updatedAthleteData } });
+    } catch (error) {
+      console.error('Error saving athlete data:', error);
+      // Handle the error, show an error message, or take appropriate action
+    }
   };
 
   return (
