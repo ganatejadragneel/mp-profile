@@ -1,0 +1,180 @@
+/* CoachSessionsPage.css */
+.coach-sessions-page {
+    background-color: #fff8f0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #fff;
+  }
+  
+  .logo {
+    height: 40px;
+  }
+  
+  .logout-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #ff8c00;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .content {
+    flex: 1;
+    display: flex;
+  }
+  
+  .sidebar {
+    width: 20%;
+    padding: 20px;
+    background-color: #f5f5f5;
+  }
+  
+  .sidebar-button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    font-size: 16px;
+    text-align: center;
+    background-color: #ff8c00;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .sidebar-button.active {
+    background-color: #e67300;
+  }
+  
+  .main-content {
+    flex: 1;
+    padding: 20px;
+  }
+  
+  h2 {
+    margin-bottom: 20px;
+    color: #333;
+    text-align: center;
+  }
+  
+  .session-list {
+    display: flex;
+    flex-direction: column;
+    height: calc(100% - 60px);
+    overflow-y: auto;
+  }
+  
+  .session-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    background-color: #fff;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .athlete-name,
+  .session-date,
+  .session-time {
+    flex: 1;
+    text-align: center;
+  }
+  
+  .join-button {
+    padding: 8px 16px;
+    font-size: 14px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  .calendar {
+    width: 100%;
+    height: 100%;
+    border: none;
+    background-color: #fff;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .calendar .react-calendar__navigation {
+    background-color: #333;
+    color: #fff;
+    border-bottom: 1px solid #555;
+  }
+  
+  .calendar .react-calendar__navigation button {
+    color: #fff;
+    font-size: 18px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .calendar .react-calendar__month-view__weekdays {
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 14px;
+  }
+  
+  .calendar .react-calendar__month-view__weekdays__weekday {
+    padding: 10px;
+  }
+  
+  .calendar .react-calendar__month-view__days__day {
+    padding: 12px;
+    font-size: 16px;
+    color: #333;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    cursor: pointer;
+  }
+  
+  .calendar .react-calendar__month-view__days__day--weekend {
+    color: #666;
+  }
+  
+  .calendar .react-calendar__month-view__days__day--neighboringMonth {
+    color: #999;
+  }
+  
+  .calendar .react-calendar__tile--active,
+  .calendar .react-calendar__tile--hasActive {
+    background-color: #333;
+    color: #fff;
+  }
+  
+  .calendar .react-calendar__tile--now {
+    background-color: #f0f0f0;
+    color: #333;
+    font-weight: bold;
+  }
+  
+  .save-button {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }

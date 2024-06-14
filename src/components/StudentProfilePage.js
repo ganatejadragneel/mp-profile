@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import './DataSummaryPage.css';
-import { API_URL } from './api'; // Import the API_URL constant
+import './StudentProfilePage.css';
+import { API_URL } from './api';
 
-function DataSummaryPage() {
+function StudentProfilePage() {
   const location = useLocation();
   const athleteData = location.state?.athleteData || {};
   const [profileImage, setProfileImage] = useState(null);
@@ -39,6 +39,11 @@ function DataSummaryPage() {
     setFileToUpload(e.target.files[0]);
   };
 
+  const handleFindCoach = () => {
+    console.log(athleteData);
+    navigate('/booking', { state: { athleteData } });
+  };
+
   const handleUploadImage = async () => {
     if (fileToUpload) {
       try {
@@ -63,6 +68,10 @@ function DataSummaryPage() {
     }
   };
 
+  const handleEditProfile = () => {
+    navigate('/edit-athlete-profile', { state: { athleteData } });
+  };
+
   return (
     <div className="data-summary-page">
       <div className="profile-container">
@@ -85,7 +94,8 @@ function DataSummaryPage() {
           <p><strong>Coaching Aspect:</strong> {athleteData.coachingAspect}</p>
         </div>
         <div className="profile-actions">
-          <button>Edit Profile</button>
+          <button onClick={handleFindCoach}>Find your Coach</button>
+          <button onClick={handleEditProfile}>Edit Profile</button>
           <button onClick={handleLogout}>Log Out</button>
         </div>
       </div>
@@ -93,4 +103,4 @@ function DataSummaryPage() {
   );
 }
 
-export default DataSummaryPage;
+export default StudentProfilePage;
