@@ -8,7 +8,7 @@ function CoachQuestionnairePageOne() {
   const coachData = location.state?.coachData || {};
   const navigate = useNavigate();
 
-  const [profilePhoto, setProfilePhoto] = useState('');
+  const [profilePhoto, setProfilePhoto] = useState(null);
   const [coaching, setCoaching] = useState('');
 
   const handleSubmit = (e) => {

@@ -3,12 +3,14 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './StudentProfilePage.css';
 import { API_URL } from './api';
+import defaultImg from '../assets/haik.jpeg';
 
 function StudentProfilePage() {
   const location = useLocation();
   const athleteData = location.state?.athleteData || {};
-  const [profileImage, setProfileImage] = useState(null);
+  const [profileImage, setProfileImage] = useState(defaultImg);
   const [fileToUpload, setFileToUpload] = useState(null);
+  const [showPopup, setShowPopup] = useState(false);
 
   const navigate = useNavigate();
 
@@ -17,21 +19,8 @@ function StudentProfilePage() {
   };
 
   useEffect(() => {
-    const fetchProfileImage = async () => {
-      try {
-        const response = await axios.get(`${API_URL}/athletes/${athleteData.profileImage}/image`, {
-          responseType: 'blob',
-        });
-        setProfileImage(URL.createObjectURL(response.data));
-      } catch (error) {
-        console.error('Error fetching profile image:', error);
-      }
-    };
-
     if (athleteData.profileImage) {
-      fetchProfileImage();
-    } else {
-      setProfileImage(`${process.env.PUBLIC_URL}/assets/haik.jpeg`);
+      setProfileImage(athleteData.profileImage);
     }
   }, [athleteData.profileImage]);
 
@@ -49,21 +38,26 @@ function StudentProfilePage() {
       try {
         const formData = new FormData();
         formData.append('profileImage', fileToUpload);
-        formData.append('email', athleteData.email);
-        // Add any other necessary fields from athleteData
-
-        const response = await axios.post(`${API_URL}/athletes`, formData, {
+  
+        const response = await axios.put(`${API_URL}/athletes/${athleteData._id}`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
         });
-
+  
         console.log('Profile image uploaded successfully:', response.data);
-        // Update the athleteData state with the new profileImage ID
-        athleteData.profileImage = response.data.profileImage;
+        // Update the athleteData state with the new profileImage URL
+        setProfileImage(response.data.profileImage);
         setFileToUpload(null);
+  
+        // Show the success popup
+        setShowPopup(true);
+        setTimeout(() => {
+          setShowPopup(false);
+        }, 1000);
       } catch (error) {
         console.error('Error uploading profile image:', error);
+        // Handle the error, show an error message, or take appropriate action
       }
     }
   };
@@ -77,7 +71,11 @@ function StudentProfilePage() {
       <div className="profile-container">
         <h2>Athlete Profile</h2>
         <div className="profile-image">
-          <img src={profileImage} alt="Profile" />
+          {profileImage ? (
+            <img src={profileImage} alt="Profile" />
+          ) : (
+            <img src={defaultImg} alt="Default" />
+          )}
         </div>
         <input type="file" onChange={handleFileChange} />
         <button onClick={handleUploadImage}>Upload Image</button>
@@ -99,6 +97,11 @@ function StudentProfilePage() {
           <button onClick={handleLogout}>Log Out</button>
         </div>
       </div>
+      {showPopup && (
+        <div className="popup">
+          <p>Image uploaded successfully</p>
+        </div>
+      )}
     </div>
   );
 }

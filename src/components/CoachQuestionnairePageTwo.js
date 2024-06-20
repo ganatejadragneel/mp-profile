@@ -16,7 +16,6 @@ function CoachQuestionnairePageTwo() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Coach questionnaire page two submitted');
     // Save the questionnaire data to the coach data object
     const questionnaireData = {
       expertise,
