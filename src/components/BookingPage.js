@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import io from 'socket.io-client';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import CardMedia from '@mui/material/CardMedia';
@@ -18,6 +19,7 @@ import './BookingPage.css';
 import { API_URL } from './api';
 import logo from '../assets/logo.png';
 import CoachSchedulingModal from './CoachSchedulingModal';
+import VideoCall from './VideoCall';
 
 function BookingPage() {
   const location = useLocation();
@@ -29,16 +31,31 @@ function BookingPage() {
   const [showScheduleModal, setShowScheduleModal] = useState(false);
   const [showBookings, setShowBookings] = useState(false);
   const [bookings, setBookings] = useState([]);
+  const [selectedBooking, setSelectedBooking] = useState(null);
+  const [callStarted, setCallStarted] = useState(false);
 
   useEffect(() => {
     fetchCoaches();
     fetchAthleteBookings();
-  });
+
+    const socket = io('http://localhost:5001');
+    socket.on('callStarted', ({ sessionId }) => {
+      setBookings(prevBookings =>
+        prevBookings.map(booking =>
+          booking._id === sessionId ? { ...booking, callStarted: true } : booking
+        )
+      );
+    });
+
+    return () => {
+      socket.disconnect();
+    };
+  }, []);
 
   const fetchCoaches = async () => {
     try {
-        const response = await axios.get(`${API_URL}/coaches`);
-        setCoaches(response.data);
+      const response = await axios.get(`${API_URL}/coaches`);
+      setCoaches(response.data);
     } catch (error) {
       console.error('Error fetching coaches:', error);
     }
@@ -84,8 +101,13 @@ function BookingPage() {
     setShowBookings(true);
   };
 
-  const handleJoinMeeting = (googleMeetLink) => {
-    window.open(googleMeetLink, '_blank');
+  const handleJoinCall = (booking) => {
+    if (booking.callStarted) {
+      setSelectedBooking(booking);
+      setCallStarted(true);
+    } else {
+      alert("The coach hasn't started the call yet. Please wait for the coach to initiate the call.");
+    }
   };
 
   return (
@@ -101,29 +123,30 @@ function BookingPage() {
           <button className="my-coaches-button" onClick={handleMyCoachesClick}>
             My Coaches
           </button>
-          <button className="my-bookings-button"onClick={handleMyBookingsClick}>My Bookings</button>
+          <button className="my-bookings-button" onClick={handleMyBookingsClick}>My Bookings</button>
         </div>
         <div className="coach-list">
         {showBookings ? (
             <div className="booking-list">
-            <h3>My Bookings</h3>
-            {bookings.map((booking) => (
+              <h3>My Bookings</h3>
+              {bookings.map((booking) => (
                 <div key={booking._id} className="booking-row">
-                <span className="coach-name">{booking.coachName}</span>
-                <span className="booking-date">{booking.bookingDate}</span>
-                <span className="booking-time">
+                  <span className="coach-name">{booking.coachName}</span>
+                  <span className="booking-date">{booking.bookingDate}</span>
+                  <span className="booking-time">
                     {booking.startTime} - {booking.endTime}
-                </span>
-                <button
+                  </span>
+                  <button
                     className="join-button"
-                    onClick={() => handleJoinMeeting(booking.googleMeetLink)}
-                >
-                    Join
-                </button>
+                    onClick={() => handleJoinCall(booking)}
+                    disabled={!booking.callStarted}
+                  >
+                    {booking.callStarted ? 'Join Call' : 'Waiting for Coach'}
+                  </button>
                 </div>
-            ))}
+              ))}
             </div>
-        ) : !showPrecisionMatch ? (
+          ) : !showPrecisionMatch ? (
             <>
               <div className="precision-match-container">
                 <button className="precision-match-button" onClick={handlePrecisionMatchClick}>
@@ -235,6 +258,12 @@ function BookingPage() {
           coach={selectedCoach}
           onClose={handleCloseScheduleModal}
           athleteData={athleteData}
+        />
+      )}
+      {selectedBooking && callStarted && (
+        <VideoCall
+          sessionId={selectedBooking._id}
+          isCoach={false}
         />
       )}
     </div>

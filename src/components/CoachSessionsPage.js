@@ -1,4 +1,3 @@
-// CoachSessionsPage.js
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -7,6 +6,7 @@ import 'react-calendar/dist/Calendar.css';
 import './CoachSessionsPage.css';
 import { API_URL } from './api';
 import logo from '../assets/logo.png';
+import VideoCall from './VideoCall';
 
 function CoachSessionsPage() {
   const location = useLocation();
@@ -15,10 +15,11 @@ function CoachSessionsPage() {
   const [upcomingSessions, setUpcomingSessions] = useState([]);
   const [selectedView, setSelectedView] = useState('sessions');
   const [selectedDates, setSelectedDates] = useState([]);
+  const [selectedSession, setSelectedSession] = useState(null);
 
   useEffect(() => {
     fetchUpcomingSessions();
-  });
+  }, []);
 
   const fetchUpcomingSessions = async () => {
     try {
@@ -31,10 +32,6 @@ function CoachSessionsPage() {
 
   const handleLogout = () => {
     navigate('/');
-  };
-
-  const handleJoinSession = (googleMeetLink) => {
-    window.open(googleMeetLink, '_blank');
   };
 
   const handleViewChange = (view) => {
@@ -53,6 +50,24 @@ function CoachSessionsPage() {
       alert('Availability saved successfully');
     } catch (error) {
       console.error('Error saving availability:', error);
+    }
+  };
+
+  const handleStartCall = (session) => {
+    setSelectedSession(session);
+  };
+
+  const handleCallStarted = async () => {
+    try {
+      await axios.put(`${API_URL}/sessions/${selectedSession._id}/start-call`);
+      // Optionally, you can update the local state to reflect the change
+      setUpcomingSessions(prevSessions =>
+        prevSessions.map(s =>
+          s._id === selectedSession._id ? { ...s, callStarted: true } : s
+        )
+      );
+    } catch (error) {
+      console.error('Error updating session status:', error);
     }
   };
 
@@ -90,10 +105,11 @@ function CoachSessionsPage() {
                     <span className="session-date">{session.bookingDate}</span>
                     <span className="session-time">{session.startTime}</span>
                     <button
-                      className="join-button"
-                      onClick={() => handleJoinSession(session.googleMeetLink)}
+                      className="start-call-button"
+                      onClick={() => handleStartCall(session)}
+                      disabled={session.callStarted}
                     >
-                      Join
+                      {session.callStarted ? 'Call in Progress' : 'Start Call'}
                     </button>
                   </div>
                 ))}
@@ -115,6 +131,13 @@ function CoachSessionsPage() {
           )}
         </div>
       </div>
+      {selectedSession && (
+        <VideoCall
+          sessionId={selectedSession._id}
+          isCoach={true}
+          onCallStarted={handleCallStarted}
+        />
+      )}
     </div>
   );
 }
