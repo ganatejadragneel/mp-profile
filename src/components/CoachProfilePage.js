@@ -86,6 +86,8 @@ function CoachProfilePage() {
           <p><strong>Comfortable Age Group:</strong> {coachData.ageGroup}</p>
           <p><strong>Certifications:</strong> {coachData.certifications}</p>
           <p><strong>Dealing with Students:</strong> {coachData.goodDealing}</p>
+          <p><strong>Personal Bio:</strong> {coachData.personalBio}</p>
+          <p><strong>Previous Sports Coaching:</strong> {coachData.previousCoaching}</p>
         </div>
         <div className="profile-actions">
           <button onClick={handleMySessions}>My Sessions</button>

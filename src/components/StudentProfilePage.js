@@ -29,7 +29,6 @@ function StudentProfilePage() {
   };
 
   const handleFindCoach = () => {
-    console.log(athleteData);
     navigate('/booking', { state: { athleteData } });
   };
 

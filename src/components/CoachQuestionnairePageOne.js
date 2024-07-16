@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import './CoachQuestionnairePageOne.css';
-import { useNavigate } from 'react-router-dom';
 
 function CoachQuestionnairePageOne() {
   const location = useLocation();
@@ -10,6 +9,8 @@ function CoachQuestionnairePageOne() {
 
   const [profilePhoto, setProfilePhoto] = useState(null);
   const [coaching, setCoaching] = useState('');
+  const [personalBio, setPersonalBio] = useState('');
+  const [previousCoaching, setPreviousCoaching] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -17,6 +18,8 @@ function CoachQuestionnairePageOne() {
     const questionnaireData = {
       profilePhoto,
       coaching,
+      personalBio,
+      previousCoaching,
     };
     const updatedCoachData = { ...coachData, ...questionnaireData };
     // Navigate to the second questionnaire page
@@ -33,7 +36,7 @@ function CoachQuestionnairePageOne() {
             <input
               type="file"
               id="profilePhoto"
-              onChange={(e) => setProfilePhoto(e.target.value)}
+              onChange={(e) => setProfilePhoto(e.target.files[0])}
               required
             />
           </div>
@@ -46,6 +49,29 @@ function CoachQuestionnairePageOne() {
               onChange={(e) => setCoaching(e.target.value)}
               required
             />
+          </div>
+          <div className="form-group">
+            <label htmlFor="personalBio">Personal Bio:</label>
+            <input
+              type="text"
+              id="personalBio"
+              value={personalBio}
+              onChange={(e) => setPersonalBio(e.target.value)}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="previousCoaching">Have you done any sports coaching before?</label>
+            <select
+              id="previousCoaching"
+              value={previousCoaching}
+              onChange={(e) => setPreviousCoaching(e.target.value)}
+              required
+            >
+              <option value="">Select</option>
+              <option value="Yes">Yes</option>
+              <option value="No">No</option>
+            </select>
           </div>
           <button type="submit">Next</button>
         </form>
