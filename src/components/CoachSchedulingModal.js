@@ -1,16 +1,38 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import axios from 'axios';
 import { API_URL } from './api';
 import { format, addMinutes } from 'date-fns';
+import { generateChannelId } from '../utils';
 
 function CoachSchedulingModal({ coach, onClose, athleteData }) {
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedStartTime, setSelectedStartTime] = useState('');
+  const [coachAvailability, setCoachAvailability] = useState([]);
+
+  const timeSlots = [
+    '10:00', '10:30', '11:00', '11:30', '12:00', '12:30',
+    '14:00', '14:30', '15:00', '15:30', '16:00', '16:30',
+    '17:00', '17:30'
+  ];
+
+  useEffect(() => {
+    fetchCoachAvailability();
+  }, [coach._id]);
+
+  const fetchCoachAvailability = async () => {
+    try {
+      const response = await axios.get(`${API_URL}/coaches/${coach._id}/availability`);
+      setCoachAvailability(response.data.availableTimings);
+    } catch (error) {
+      console.error('Error fetching coach availability:', error);
+    }
+  };
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
+    setSelectedStartTime('');
   };
 
   const handleStartTimeChange = (e) => {
@@ -20,25 +42,19 @@ function CoachSchedulingModal({ coach, onClose, athleteData }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      // Generate a unique Google Meet link
-      const googleMeetLink = `https://meet.google.com/your-unique-link`;
-  
-      // Get the booking timestamp
+      const channelId = generateChannelId();
       const bookingTimestamp = new Date().toISOString();
-  
-      // Calculate the end time as 30 minutes after the start time
       const endTime = format(addMinutes(new Date(`2000-01-01T${selectedStartTime}`), 30), 'HH:mm');
-  
-      // Update the athlete's data
+
       const updatedAthleteData = {
         ...athleteData,
         bookings: [
-          ...(athleteData?.bookings || []), // Add null check here
+          ...(athleteData.bookings || []),
           {
             coachId: coach._id,
             coachName: coach.fullName,
             coachEmail: coach.email,
-            googleMeetLink,
+            channelId,
             bookingTimestamp,
             bookingDate: format(selectedDate, 'yyyy-MM-dd'),
             startTime: selectedStartTime,
@@ -46,19 +62,17 @@ function CoachSchedulingModal({ coach, onClose, athleteData }) {
           },
         ],
       };
-      console.log(coach)
-      console.log(athleteData)
-  
+
       await axios.put(`${API_URL}/athletes/${athleteData._id}`, updatedAthleteData);
-  
-      // Update the coach's data
+
       const updatedCoachData = {
         ...coach,
         bookings: [
-          ...(coach?.bookings || []), // Add null check here
+          ...(coach.bookings || []),
           {
             athleteId: athleteData._id,
-            googleMeetLink,
+            athleteName: athleteData.fullName,
+            channelId,
             bookingTimestamp,
             bookingDate: format(selectedDate, 'yyyy-MM-dd'),
             startTime: selectedStartTime,
@@ -66,16 +80,20 @@ function CoachSchedulingModal({ coach, onClose, athleteData }) {
           },
         ],
       };
-  
+
       await axios.put(`${API_URL}/coaches/${coach._id}`, updatedCoachData);
-  
-      // Close the modal after successful scheduling
+
       onClose();
     } catch (error) {
       console.error('Error scheduling coach:', error);
-      // Handle the error, show an error message, or take appropriate action
     }
   };
+
+  const availableDates = coachAvailability.map(a => new Date(a.date));
+
+  const availableTimes = selectedDate
+    ? coachAvailability.find(a => a.date === format(selectedDate, 'yyyy-MM-dd'))?.times || []
+    : [];
 
   return (
     <div className="modal-overlay">
@@ -93,42 +111,31 @@ function CoachSchedulingModal({ coach, onClose, athleteData }) {
               onChange={handleDateChange}
               dateFormat="yyyy-MM-dd"
               minDate={new Date()}
-              maxDate={new Date(new Date().setMonth(new Date().getMonth() + 1))}
+              includeDates={availableDates}
+              highlightDates={availableDates}
             />
           </div>
           <div className="form-group">
             <label>Start Time:</label>
             <select value={selectedStartTime} onChange={handleStartTimeChange}>
               <option value="">Select Start Time</option>
-              {generateTimeOptions('10:00', '17:00', 30)}
+              {timeSlots.filter(time => availableTimes.includes(time)).map(time => (
+                <option key={time} value={time}>{time}</option>
+              ))}
             </select>
           </div>
-          <button type="submit" disabled={!selectedDate || !selectedStartTime}>
-            Schedule
-          </button>
+          <div className="button-group">
+            <button type="submit" disabled={!selectedDate || !selectedStartTime}>
+              Schedule
+            </button>
+            <button type="button" onClick={onClose} className="cancel-button">
+              Cancel
+            </button>
+          </div>
         </form>
       </div>
     </div>
   );
-}
-
-// Helper function to generate time options
-function generateTimeOptions(start, end, interval) {
-  const options = [];
-  let currentTime = new Date(`2000-01-01T${start}`);
-  const endTime = new Date(`2000-01-01T${end}`);
-
-  while (currentTime <= endTime) {
-    const timeString = format(currentTime, 'HH:mm');
-    options.push(
-      <option key={timeString} value={timeString}>
-        {timeString}
-      </option>
-    );
-    currentTime = addMinutes(currentTime, interval);
-  }
-
-  return options;
 }
 
 export default CoachSchedulingModal;

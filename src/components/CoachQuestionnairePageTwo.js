@@ -10,7 +10,6 @@ function CoachQuestionnairePageTwo() {
 
   const [expertise, setExpertise] = useState('');
   const [ageGroup, setAgeGroup] = useState('');
-  const [comfortableCoaching, setComfortableCoaching] = useState('');
   const [certifications, setCertifications] = useState('');
   const [goodDealing, setGoodDealing] = useState('');
 
@@ -20,7 +19,6 @@ function CoachQuestionnairePageTwo() {
     const questionnaireData = {
       expertise,
       ageGroup,
-      comfortableCoaching,
       certifications,
       goodDealing,
     };
@@ -52,7 +50,7 @@ function CoachQuestionnairePageTwo() {
             />
           </div>
           <div className="form-group">
-            <label htmlFor="ageGroup">What age group athletes are you most comfortable?</label>
+            <label htmlFor="ageGroup">What age group athletes are you most comfortable with?</label>
             <select
               id="ageGroup"
               value={ageGroup}
@@ -66,16 +64,6 @@ function CoachQuestionnairePageTwo() {
             </select>
           </div>
           <div className="form-group">
-            <label htmlFor="comfortableCoaching">List all the certifications you have</label>
-            <input
-              type="text"
-              id="comfortableCoaching"
-              value={comfortableCoaching}
-              onChange={(e) => setComfortableCoaching(e.target.value)}
-              required
-            />
-          </div>
-          <div className="form-group">
             <label htmlFor="certifications">List all the certifications you have</label>
             <input
               type="text"
@@ -86,7 +74,7 @@ function CoachQuestionnairePageTwo() {
             />
           </div>
           <div className="form-group">
-            <label htmlFor="goodDealing">How good are you dealing with students?</label>
+            <label htmlFor="goodDealing">How good are you at dealing with students?</label>
             <select
               id="goodDealing"
               value={goodDealing}
@@ -94,7 +82,9 @@ function CoachQuestionnairePageTwo() {
               required
             >
               <option value="">Select</option>
-              <option value="1-10">1-10</option>
+              {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((num) => (
+                <option key={num} value={num.toString()}>{num}</option>
+              ))}
             </select>
           </div>
           <button type="submit">Submit</button>

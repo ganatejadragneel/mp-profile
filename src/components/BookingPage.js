@@ -29,6 +29,8 @@ function BookingPage() {
   const [showScheduleModal, setShowScheduleModal] = useState(false);
   const [showBookings, setShowBookings] = useState(false);
   const [bookings, setBookings] = useState([]);
+  const [channelId, setChannelId] = useState('');
+  const [activeButton, setActiveButton] = useState('myCoaches');
 
   useEffect(() => {
     fetchCoaches();
@@ -42,6 +44,20 @@ function BookingPage() {
     } catch (error) {
       console.error('Error fetching coaches:', error);
     }
+  };
+
+  const handleJoinCall = () => {
+    if (channelId) {
+      window.open(`http://localhost:4321/channel/${channelId}`, '_blank');
+      //window.location.href = `http://localhost:4321/channel/${channelId}`;
+    } else {
+      alert('Please enter a valid channel ID');
+    }
+  };
+
+  const handleMyProfile = () => {
+    setActiveButton('myProfile');
+    navigate('/data-summary', { state: { athleteData } });
   };
 
   const fetchAthleteBookings = async () => {
@@ -61,6 +77,7 @@ function BookingPage() {
     setShowPrecisionMatch(false);
     setSelectedCoach(null);
     setShowBookings(false);
+    setActiveButton('myCoaches');
   };
 
   const handlePrecisionMatchClick = () => {
@@ -82,10 +99,7 @@ function BookingPage() {
     setShowPrecisionMatch(false);
     setSelectedCoach(null);
     setShowBookings(true);
-  };
-
-  const handleJoinMeeting = (googleMeetLink) => {
-    window.open(googleMeetLink, '_blank');
+    setActiveButton('myBookings');
   };
 
   return (
@@ -101,28 +115,42 @@ function BookingPage() {
           <button className="my-coaches-button" onClick={handleMyCoachesClick}>
             My Coaches
           </button>
-          <button className="my-bookings-button"onClick={handleMyBookingsClick}>My Bookings</button>
+          <button className="my-bookings-button" onClick={handleMyBookingsClick}>
+            My Bookings
+          </button>
+          <button className="my-profile-button" onClick={handleMyProfile}>
+            My Profile
+          </button>
         </div>
-        <div className="coach-list">
+        <div className="main-content">
         {showBookings ? (
-            <div className="booking-list">
-            <h3>My Bookings</h3>
-            {bookings.map((booking) => (
-                <div key={booking._id} className="booking-row">
-                <span className="coach-name">{booking.coachName}</span>
-                <span className="booking-date">{booking.bookingDate}</span>
-                <span className="booking-time">
-                    {booking.startTime} - {booking.endTime}
-                </span>
-                <button
-                    className="join-button"
-                    onClick={() => handleJoinMeeting(booking.googleMeetLink)}
-                >
-                    Join
-                </button>
-                </div>
-            ))}
+          <>
+            <div className="channel-input">
+              <input
+                type="text"
+                placeholder="Enter channel ID"
+                value={channelId}
+                onChange={(e) => setChannelId(e.target.value)}
+              />
+              <button onClick={handleJoinCall}>Join Call</button>
             </div>
+            <div className="booking-list">
+              <div className="booking-header">
+                <div className="header-item">Coach Name</div>
+                <div className="header-item">Date</div>
+                <div className="header-item">Time</div>
+                <div className="header-item">Channel ID</div>
+              </div>
+              {bookings.map((booking) => (
+                  <div key={booking._id} className="booking-row">
+                  <div className="booking-item" data-label="Coach Name">{booking.coachName}</div>
+                  <div className="booking-item" data-label="Date">{booking.bookingDate}</div>
+                  <div className="booking-item" data-label="Time">{booking.startTime} - {booking.endTime}</div>
+                  <div className="booking-item" data-label="Channel ID">{booking.channelId}</div>
+                </div>
+              ))}
+            </div>
+          </>
         ) : !showPrecisionMatch ? (
             <>
               <div className="precision-match-container">

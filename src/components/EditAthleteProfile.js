@@ -32,7 +32,6 @@ function EditAthleteProfile() {
         ableToBalance,
         coachingAspect,
       };
-      console.log(updatedData)
       await axios.put(`${API_URL}/athletes/${athleteData._id}`, updatedData);
       navigate('/data-summary', { state: { athleteData: { ...athleteData, ...updatedData } } });
     } catch (error) {
