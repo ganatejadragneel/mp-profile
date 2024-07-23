@@ -41,7 +41,7 @@ function CoachSessionsPage() {
   const fetchAvailability = async () => {
     try {
       const response = await axios.get(`${API_URL}/coaches/${coachData._id}/availability`);
-      setAvailability(response.data.availableTimings);
+      setAvailability(response.data.availableTimings || []);
     } catch (error) {
       console.error('Error fetching availability:', error);
     }
@@ -84,8 +84,6 @@ function CoachSessionsPage() {
         availableTimings: updatedAvailability,
       });
       setAvailability(updatedAvailability);
-      setSelectedDate(null);
-      setSelectedTimes([]);
       alert('Availability saved successfully');
     } catch (error) {
       console.error('Error saving availability:', error);
@@ -108,11 +106,21 @@ function CoachSessionsPage() {
     navigate('/coach-profile', { state: { coachData } });
   };
 
+  const handleJoinCall = () => {
+    if (channelId) {
+      window.open(`http://localhost:4321/channel/${channelId}`, '_blank');
+    } else {
+      alert('Please enter a valid channel ID');
+    }
+  };
+
   return (
     <div className="coach-sessions-page">
       <div className="header">
         <img src={logo} alt="Logo" className="logo" />
-        <button className="logout-button" onClick={handleLogout}>Log out</button>
+        <button className="logout-button" onClick={handleLogout}>
+          Log out
+        </button>
       </div>
       <div className="content">
         <div className="sidebar">
@@ -128,42 +136,37 @@ function CoachSessionsPage() {
           >
             Schedule
           </button>
-          <button className="sidebar-button" onClick={handleMyProfile}>
+          <button
+            className="sidebar-button"
+            onClick={handleMyProfile}
+          >
             My Profile
           </button>
         </div>
         <div className="main-content">
-        {selectedView === 'sessions' ? (
-          <>
-            <div className="channel-input">
-              <input
-                type="text"
-                placeholder="Enter channel ID"
-                value={channelId}
-                onChange={(e) => setChannelId(e.target.value)}
-              />
-              <button onClick={() => window.open(`http://localhost:4321/channel/${channelId}`, '_blank')}>
-                Join Call
-              </button>
-            </div>
-            <h2>Upcoming Sessions</h2>
-            <div className="session-list">
-              <div className="session-row header">
-                <span className="athlete-name">Athlete Name</span>
-                <span className="session-date">Date</span>
-                <span className="session-time">Time</span>
-                <span className="channel-id">Channel ID</span>
+          {selectedView === 'sessions' ? (
+            <>
+              <div className="channel-input">
+                <input
+                  type="text"
+                  placeholder="Enter channel ID"
+                  value={channelId}
+                  onChange={(e) => setChannelId(e.target.value)}
+                />
+                <button onClick={handleJoinCall}>Join Call</button>
               </div>
-              {upcomingSessions.map((session) => (
-                <div key={session._id} className="session-row">
-                  <span className="athlete-name">{session.athleteName}</span>
-                  <span className="session-date">{session.bookingDate}</span>
-                  <span className="session-time">{session.startTime}</span>
-                  <span className="channel-id">{session.channelId}</span>
-                </div>
-              ))}
-            </div>
-          </>
+              <h2>Upcoming Sessions</h2>
+              <div className="session-list">
+                {upcomingSessions.map((session) => (
+                  <div key={session._id} className="session-row">
+                    <span className="athlete-name">{session.athleteName}</span>
+                    <span className="session-date">{session.bookingDate}</span>
+                    <span className="session-time">{session.startTime}</span>
+                    <span className="channel-id">{session.channelId}</span>
+                  </div>
+                ))}
+              </div>
+            </>
           ) : (
             <>
               <h2>Set Your Availability</h2>
