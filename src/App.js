@@ -12,6 +12,8 @@ import EditCoachProfile from './components/EditCoachProfile';
 import EditAthleteProfile from './components/EditAthleteProfile';
 import BookingPage from './components/BookingPage';
 import CoachSessionsPage from './components/CoachSessionsPage';
+import AthleteLoginPage from './components/AthleteLoginPage';
+import CoachLoginPage from './components/CoachLoginPage'; // Add this import
 
 function App() {
   return (
@@ -19,6 +21,8 @@ function App() {
       <div className="App">
         <Routes>
           <Route path="/" element={<LandingPage />} />
+          <Route path="/athlete-login" element={<AthleteLoginPage />} />
+          <Route path="/coach-login" element={<CoachLoginPage />} /> {/* Add this new route */}
           <Route path="/student-questionnaire-1" element={<StudentQuestionnairePageOne />} />
           <Route path="/student-questionnaire-2" element={<StudentQuestionnairePageTwo />} />
           <Route path="/data-summary" element={<StudentProfilePage />} />

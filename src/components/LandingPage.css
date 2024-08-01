@@ -1,6 +1,5 @@
 .landing-page {
   display: flex;
-  flex-direction: column;
   height: 100vh;
 }
 
@@ -21,264 +20,113 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: #3b4465;
-  padding: 20px; 
+  background-color: #ffffff;
+  padding: 40px;
+}
+
+.logo {
+  width: 120px !important; /* Doubled from 120px */
+  height: 120px !important; /* Doubled from 120px */
+  object-fit: contain !important; /* Ensure the entire logo is visible */
+  margin-bottom: 20px !important;
 }
 
 .section-title {
-  font-size: 32px;
-  letter-spacing: 1px;
-  color: #fff;
+  font-size: 20px;
+  color: #23395d;
+  margin-bottom: 10px;
+  text-align: center;
 }
 
-.forms {
+.section-subtitle {
+  font-size: 24px;
+  color: #23395d;
+  margin-bottom: 20px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.role-selector {
   display: flex;
-  align-items: flex-start;
-  margin-top: 30px;
+  margin-bottom: 20px;
 }
 
-.form-wrapper {
-  animation: hideLayer 0.3s ease-out forwards;
-}
-
-.form-wrapper.is-active {
-  animation: showLayer 0.3s ease-in forwards;
-}
-
-@keyframes showLayer {
-  50% {
-    z-index: 1;
-  }
-  100% {
-    z-index: 1;
-  }
-}
-
-@keyframes hideLayer {
-  0% {
-    z-index: 1;
-  }
-  49.999% {
-    z-index: 1;
-  }
-}
-
-.switcher {
-  position: relative;
-  cursor: pointer;
-  display: block;
-  margin-right: auto;
-  margin-left: auto;
-  padding: 0;
-  text-transform: uppercase;
-  font-family: inherit;
+.role-button {
+  padding: 10px 20px;
   font-size: 16px;
-  letter-spacing: 0.5px;
-  color: #999;
-  background-color: transparent;
+  background: none;
   border: none;
-  outline: none;
-  transform: translateX(0);
-  transition: all 0.3s ease-out;
+  color: #23395d;
+  cursor: pointer;
+  position: relative;
+  font-weight: bold; /* Added bold font weight */
 }
 
-.form-wrapper.is-active .switcher-login {
-  color: #fff;
-  transform: translateX(90px);
-}
-
-.form-wrapper.is-active .switcher-signup {
-  color: #fff;
-  transform: translateX(-90px);
-}
-
-.underline {
+.role-button.active::after {
+  content: '';
   position: absolute;
   bottom: -5px;
   left: 0;
-  overflow: hidden;
-  pointer-events: none;
   width: 100%;
   height: 2px;
+  background-color: #23395d;
 }
 
-.underline::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: inherit;
-  display: block;
-  width: inherit;
-  height: inherit;
-  background-color: currentColor;
-  transition: transform 0.2s ease-out;
-}
-
-.switcher-login .underline::before {
-  transform: translateX(101%);
-}
-
-.switcher-signup .underline::before {
-  transform: translateX(-101%);
-}
-
-.form-wrapper.is-active .underline::before {
-  transform: translateX(0);
-}
-
-.form {
-  overflow: hidden;
-  min-width: 260px;
-  margin-top: 50px;
-  padding: 30px 25px;
-  border-radius: 5px;
-  transform-origin: top;
-}
-
-.form-login {
-  animation: hideLogin 0.3s ease-out forwards;
-}
-
-.form-wrapper.is-active .form-login {
-  animation: showLogin 0.3s ease-in forwards;
-}
-
-@keyframes showLogin {
-  0% {
-    background: #d7e7f1;
-    transform: translate(40%, 10px);
-  }
-  50% {
-    transform: translate(0, 0);
-  }
-  100% {
-    background-color: #fff;
-    transform: translate(35%, -20px);
-  }
-}
-
-@keyframes hideLogin {
-  0% {
-    background-color: #fff;
-    transform: translate(35%, -20px);
-  }
-  50% {
-    transform: translate(0, 0);
-  }
-  100% {
-    background: #d7e7f1;
-    transform: translate(40%, 10px);
-  }
-}
-
-.form-signup {
-  animation: hideSignup 0.3s ease-out forwards;
-}
-
-.form-wrapper.is-active .form-signup {
-  animation: showSignup 0.3s ease-in forwards;
-}
-
-@keyframes showSignup {
-  0% {
-    background: #d7e7f1;
-    transform: translate(-40%, 10px) scaleY(0.8);
-  }
-  50% {
-    transform: translate(0, 0) scaleY(0.8);
-  }
-  100% {
-    background-color: #fff;
-    transform: translate(-35%, -20px) scaleY(1);
-  }
-}
-
-@keyframes hideSignup {
-  0% {
-    background-color: #fff;
-    transform: translate(-35%, -20px) scaleY(1);
-  }
-  50% {
-    transform: translate(0, 0) scaleY(0.8);
-  }
-  100% {
-    background: #d7e7f1;
-    transform: translate(-40%, 10px) scaleY(0.8);
-  }
-}
-
-.signup-button {
-  background-color: #007bff;
-  color: #fff;
-}
-
-.login-button {
-  background-color: #6c757d;
-  color: #fff;
-}
-
-.form-login {
-  background-color: #d1e8ff;
-}
-
-.form-signup {
-  background-color: #ffe0b3;
+.auth-buttons-container {
+  background-color: #123B5E;
+  border-radius: 10px;
+  padding: 20px; /* Increased from 10px */
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 300px;
 }
 
 .auth-button {
-  display: block;
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 10px;
-  font-size: 18px;
+  padding: 15px 20px;
+  font-size: 16px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-}
-
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 999;
-}
-
-.modal-content {
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 5px;
-  max-width: 400px;
-  width: 100%;
-}
-
-.modal-content h2 {
-  margin-top: 0;
-}
-
-.modal-content form {
-  margin-top: 20px;
-}
-
-.modal-content .input-block {
   margin-bottom: 10px;
+  background-color: #ffffff;
+  color: #123B5E;
+  transition: background-color 0.3s, color 0.3s;
 }
 
-.modal-content button {
-  margin-top: 10px;
+.auth-button:last-child {
+  margin-bottom: 0;
 }
 
-@media (min-width: 768px) {
+.auth-button:hover {
+  background-color: #f0f0f0;
+}
+
+
+@media (max-width: 768px) {
   .landing-page {
-    flex-direction: row; /* Change back to row layout on larger screens */
+    flex-direction: column;
+  }
+
+  .image-section, .auth-section {
+    flex: none;
+    height: 50vh;
   }
 
   .auth-section {
-    padding: 0; /* Remove padding on larger screens */
+    padding: 20px;
+  }
+  
+  .logo {
+    width: 80px !important; /* Adjusted for mobile */
+    height: 80px !important; /* Adjusted for mobile */
+  }
+  
+  .section-title {
+    font-size: 18px;
+  }
+  
+  .section-subtitle {
+    font-size: 22px;
   }
 }

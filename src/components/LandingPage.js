@@ -1,55 +1,40 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './LandingPage.css';
 import AthleteSignupPopup from './AthleteSignupPopup';
-import StudentLoginPopup from './StudentLoginPopup';
 import CoachSignupPopup from './CoachSignupPopup';
-import CoachLoginPopup from './CoachLoginPopup';
 
 function LandingPage() {
-  const [activeForm, setActiveForm] = useState('login');
+  const [activeForm, setActiveForm] = useState('athlete');
   const [showAthleteSignupPopup, setShowAthleteSignupPopup] = useState(false);
-  const [showStudentLoginPopup, setShowStudentLoginPopup] = useState(false);
   const [showCoachSignupPopup, setShowCoachSignupPopup] = useState(false);
-  const [showCoachLoginPopup, setShowCoachLoginPopup] = useState(false);
+  const navigate = useNavigate();
 
   const switchForm = (formName) => {
     setActiveForm(formName);
   };
 
-  const handleAthleteSignupClick = (e) => {
+  const handleSignupClick = (e) => {
     e.preventDefault();
-    setShowAthleteSignupPopup(true);
+    if (activeForm === 'athlete') {
+      setShowAthleteSignupPopup(true);
+    } else {
+      setShowCoachSignupPopup(true);
+    }
   };
 
-  const handleAthleteSignupClose = () => {
+  const handleLoginClick = (e) => {
+    e.preventDefault();
+    if (activeForm === 'athlete') {
+      navigate('/athlete-login');
+    } else {
+      navigate('/coach-login');
+    }
+  };
+
+  const handlePopupClose = () => {
     setShowAthleteSignupPopup(false);
-  };
-
-  const handleStudentLoginClick = (e) => {
-    e.preventDefault();
-    setShowStudentLoginPopup(true);
-  };
-
-  const handleStudentLoginClose = () => {
-    setShowStudentLoginPopup(false);
-  };
-
-  const handleCoachSignupClick = (e) => {
-    e.preventDefault();
-    setShowCoachSignupPopup(true);
-  };
-
-  const handleCoachSignupClose = () => {
     setShowCoachSignupPopup(false);
-  };
-
-  const handleCoachLoginClick = (e) => {
-    e.preventDefault();
-    setShowCoachLoginPopup(true);
-  };
-
-  const handleCoachLoginClose = () => {
-    setShowCoachLoginPopup(false);
   };
 
   return (
@@ -58,51 +43,39 @@ function LandingPage() {
         <img src="/landing.jpg" alt="Landing Page" className="cover-image" />
       </div>
       <div className="auth-section">
-        <h1 className="section-title">Are you an Athlete or Coach?</h1>
-        <div className="forms">
-          <div className={`form-wrapper ${activeForm === 'login' ? 'is-active' : ''}`}>
-            <button
-              type="button"
-              className="switcher switcher-login"
-              onClick={() => switchForm('login')}
-            >
-              Athlete
-              <span className="underline"></span>
-            </button>
-            <form className="form form-login">
-              <button className="auth-button signup-button" onClick={handleAthleteSignupClick}>
-                Sign Up
-              </button>
-              <button className="auth-button login-button" onClick={handleStudentLoginClick}>
-                Login
-              </button>
-            </form>
-          </div>
-
-          <div className={`form-wrapper ${activeForm === 'signup' ? 'is-active' : ''}`}>
-            <button
-              type="button"
-              className="switcher switcher-signup"
-              onClick={() => switchForm('signup')}
-            >
-              Coach
-              <span className="underline"></span>
-            </button>
-            <form className="form form-signup">
-              <button className="auth-button signup-button" onClick={handleCoachSignupClick}>
-                Sign Up
-              </button>
-              <button className="auth-button login-button" onClick={handleCoachLoginClick}>
-                Login
-              </button>
-            </form>
-          </div>
+        <img 
+          src="/icon.png" 
+          alt="Mindful Performance Logo" 
+          className="logo"
+          style={{ width: '240px', height: '240px', objectFit: 'contain' }}
+        />
+        <h1 className="section-title">Welcome to Mindful Performance</h1>
+        <h2 className="section-subtitle">Are you an Athlete or Coach?</h2>
+        <div className="role-selector">
+          <button
+            className={`role-button ${activeForm === 'athlete' ? 'active' : ''}`}
+            onClick={() => switchForm('athlete')}
+          >
+            Athlete
+          </button>
+          <button
+            className={`role-button ${activeForm === 'coach' ? 'active' : ''}`}
+            onClick={() => switchForm('coach')}
+          >
+            Coach
+          </button>
+        </div>
+        <div className="auth-buttons-container">
+          <button className="auth-button" onClick={handleLoginClick}>
+            Login
+          </button>
+          <button className="auth-button" onClick={handleSignupClick}>
+            Signup
+          </button>
         </div>
       </div>
-      {showAthleteSignupPopup && <AthleteSignupPopup onClose={handleAthleteSignupClose} />}
-      {showStudentLoginPopup && <StudentLoginPopup onClose={handleStudentLoginClose} />}
-      {showCoachSignupPopup && <CoachSignupPopup onClose={handleCoachSignupClose} />}
-      {showCoachLoginPopup && <CoachLoginPopup onClose={handleCoachLoginClose} />}
+      {showAthleteSignupPopup && <AthleteSignupPopup onClose={handlePopupClose} />}
+      {showCoachSignupPopup && <CoachSignupPopup onClose={handlePopupClose} />}
     </div>
   );
 }
