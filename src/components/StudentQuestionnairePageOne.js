@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { useLocation } from 'react-router-dom';
-import './StudentQuestionnairePageOne.css';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import styles from './StudentQuestionnairePageOne.module.css';
+import logo from '../assets/logo.png';
 
 function StudentQuestionnairePageOne() {
   const location = useLocation();
@@ -15,7 +15,6 @@ function StudentQuestionnairePageOne() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Save the questionnaire data to the athlete data object
     const questionnaireData = {
       sports,
       age,
@@ -23,39 +22,33 @@ function StudentQuestionnairePageOne() {
       playingTime,
     };
     const updatedAthleteData = { ...athleteData, ...questionnaireData };
-    // Navigate to the second questionnaire page
     navigate('/student-questionnaire-2', { state: { athleteData: updatedAthleteData } });
   };
 
   return (
-    <div className="student-questionnaire-page-one">
-      <div className="questionnaire-container">
-        <h2>Personal Information</h2>
+    <div className={styles.pageContainer}>
+      <div className={styles.formContainer}>
+        <div className={styles.logoContainer}>
+          <img src={logo} alt="Logo" className={styles.logo} />
+        </div>
+        <h2 className={styles.formTitle}>Personal Information</h2>
         <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label htmlFor="sports">What sports?</label>
-            <input
-              type="text"
-              id="sports"
-              value={sports}
-              onChange={(e) => setSports(e.target.value)}
-              required
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="age">What's your age?</label>
+          <div className={styles.formGroup}>
+            <label htmlFor="age" className={styles.formLabel}>What's your age?</label>
             <input
               type="text"
               id="age"
+              className={styles.formInput}
               value={age}
               onChange={(e) => setAge(e.target.value)}
               required
             />
           </div>
-          <div className="form-group">
-            <label htmlFor="gender">Gender</label>
+          <div className={styles.formGroup}>
+            <label htmlFor="gender" className={styles.formLabel}>Gender</label>
             <select
               id="gender"
+              className={styles.formInput}
               value={gender}
               onChange={(e) => setGender(e.target.value)}
               required
@@ -66,17 +59,31 @@ function StudentQuestionnairePageOne() {
               <option value="other">Other</option>
             </select>
           </div>
-          <div className="form-group">
-            <label htmlFor="playingTime">How long have you been playing?</label>
+          <div className={styles.formGroup}>
+            <label htmlFor="sports" className={styles.formLabel}>What sports?</label>
+            <input
+              type="text"
+              id="sports"
+              className={styles.formInput}
+              value={sports}
+              onChange={(e) => setSports(e.target.value)}
+              required
+            />
+          </div>
+          <div className={styles.formGroup}>
+            <label htmlFor="playingTime" className={styles.formLabel}>How long have you been playing for?</label>
             <input
               type="text"
               id="playingTime"
+              className={styles.formInput}
               value={playingTime}
               onChange={(e) => setPlayingTime(e.target.value)}
               required
             />
           </div>
-          <button type="submit">Next</button>
+          <div className={styles.buttonGroup}>
+            <button type="submit" className={styles.nextButton}>Next</button>
+          </div>
         </form>
       </div>
     </div>

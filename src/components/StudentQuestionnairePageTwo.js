@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { saveAthleteData } from './api';
-import './StudentQuestionnairePageTwo.css';
+import styles from './StudentQuestionnairePageTwo.module.css';
+import logo from '../assets/logo.png';
 
 function StudentQuestionnairePageTwo() {
   const location = useLocation();
@@ -15,8 +16,6 @@ function StudentQuestionnairePageTwo() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Student questionnaire page two submitted');
-    // Save the questionnaire data to the athlete data object
     const questionnaireData = {
       performanceAnxiety,
       injuries,
@@ -27,44 +26,40 @@ function StudentQuestionnairePageTwo() {
     
     try {
       await saveAthleteData(updatedAthleteData);
-      // Navigate to the data summary page
       navigate('/data-summary', { state: { athleteData: updatedAthleteData } });
     } catch (error) {
       console.error('Error saving athlete data:', error);
-      // Handle the error, show an error message, or take appropriate action
     }
   };
 
   return (
-    <div className="student-questionnaire-page-two">
-      <div className="questionnaire-container">
-        <h2>Student Questionnaire - Page 2</h2>
+    <div className={styles.pageContainer}>
+      <div className={styles.formContainer}>
+        <div className={styles.logoContainer}>
+          <img src={logo} alt="Logo" className={styles.logo} />
+        </div>
+        <h2 className={styles.formTitle}>Student Questionnaire</h2>
         <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label htmlFor="performanceAnxiety">How often you get performance anxiety?</label>
+          <div className={styles.formGroup}>
+            <label htmlFor="performanceAnxiety" className={styles.formLabel}>How often you get performance anxiety?</label>
             <select
               id="performanceAnxiety"
+              className={styles.formInput}
               value={performanceAnxiety}
               onChange={(e) => setPerformanceAnxiety(e.target.value)}
               required
             >
-                <option value="">Select</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
-                <option value="7">7</option>
-                <option value="8">8</option>
-                <option value="9">9</option>
-                <option value="10">10</option>
+              <option value="">Select</option>
+              {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(num => (
+                <option key={num} value={num}>{num}</option>
+              ))}
             </select>
           </div>
-          <div className="form-group">
-            <label htmlFor="injuries">Did you have injuries before?</label>
+          <div className={styles.formGroup}>
+            <label htmlFor="injuries" className={styles.formLabel}>Did you have injuries before?</label>
             <select
               id="injuries"
+              className={styles.formInput}
               value={injuries}
               onChange={(e) => setInjuries(e.target.value)}
               required
@@ -74,10 +69,11 @@ function StudentQuestionnairePageTwo() {
               <option value="No">No</option>
             </select>
           </div>
-          <div className="form-group">
-            <label htmlFor="ableToBalance">Are you able to balance academics and athletics?</label>
+          <div className={styles.formGroup}>
+            <label htmlFor="ableToBalance" className={styles.formLabel}>Are you able to balance academics and athletics?</label>
             <select
               id="ableToBalance"
+              className={styles.formInput}
               value={ableToBalance}
               onChange={(e) => setAbleToBalance(e.target.value)}
               required
@@ -87,17 +83,20 @@ function StudentQuestionnairePageTwo() {
               <option value="No">No</option>
             </select>
           </div>
-          <div className="form-group">
-            <label htmlFor="coachingAspect">In what aspect you want the coaching?</label>
+          <div className={styles.formGroup}>
+            <label htmlFor="coachingAspect" className={styles.formLabel}>In what aspects you want coaching?</label>
             <input
               type="text"
               id="coachingAspect"
+              className={styles.formInput}
               value={coachingAspect}
               onChange={(e) => setCoachingAspect(e.target.value)}
               required
             />
           </div>
-          <button type="submit">Submit</button>
+          <div className={styles.buttonGroup}>
+            <button type="submit" className={styles.submitButton}>Submit</button>
+          </div>
         </form>
       </div>
     </div>

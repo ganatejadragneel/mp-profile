@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import './CoachQuestionnairePageOne.css';
+import styles from './CoachQuestionnairePageOne.module.css';
+import logo from '../assets/logo.png';
 
 function CoachQuestionnairePageOne() {
   const location = useLocation();
@@ -12,9 +13,12 @@ function CoachQuestionnairePageOne() {
   const [personalBio, setPersonalBio] = useState('');
   const [previousCoaching, setPreviousCoaching] = useState('');
 
+  const handleFileChange = (e) => {
+    setProfilePhoto(e.target.files[0]);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Save the questionnaire data to the coach data object
     const questionnaireData = {
       profilePhoto,
       coaching,
@@ -22,48 +26,60 @@ function CoachQuestionnairePageOne() {
       previousCoaching,
     };
     const updatedCoachData = { ...coachData, ...questionnaireData };
-    // Navigate to the second questionnaire page
     navigate('/coach-questionnaire-2', { state: { coachData: updatedCoachData } });
   };
 
   return (
-    <div className="coach-questionnaire-page-one">
-      <div className="questionnaire-container">
-        <h2>Coach Questionnaire - Page 1</h2>
+    <div className={styles.pageContainer}>
+      <div className={styles.formContainer}>
+        <div className={styles.logoContainer}>
+          <img src={logo} alt="Logo" className={styles.logo} />
+        </div>
+        <h2 className={styles.formTitle}>Coach Questionnaire</h2>
         <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label htmlFor="profilePhoto">Upload Profile Photo</label>
-            <input
-              type="file"
-              id="profilePhoto"
-              onChange={(e) => setProfilePhoto(e.target.files[0])}
-              required
-            />
+          <div className={styles.formGroup}>
+            <label htmlFor="profilePhoto" className={styles.formLabel}>Upload Profile Photo</label>
+            <div className={styles.fileInputContainer}>
+              <div className={styles.browseButtonContainer}>
+                <input
+                  type="file"
+                  id="profilePhoto"
+                  onChange={handleFileChange}
+                  className={styles.fileInput}
+                  required
+                />
+                <label htmlFor="profilePhoto" className={styles.browseButton}>Browse</label>
+              </div>
+              <span className={styles.fileName}>{profilePhoto ? profilePhoto.name : 'No file chosen'}</span>
+            </div>
           </div>
-          <div className="form-group">
-            <label htmlFor="coaching">Since how long have you been coaching?</label>
+          <div className={styles.formGroup}>
+            <label htmlFor="coaching" className={styles.formLabel}>Since how long have you been coaching?</label>
             <input
               type="text"
               id="coaching"
+              className={styles.formInput}
               value={coaching}
               onChange={(e) => setCoaching(e.target.value)}
               required
             />
           </div>
-          <div className="form-group">
-            <label htmlFor="personalBio">Personal Bio:</label>
+          <div className={styles.formGroup}>
+            <label htmlFor="personalBio" className={styles.formLabel}>Personal Bio</label>
             <input
               type="text"
               id="personalBio"
+              className={styles.formInput}
               value={personalBio}
               onChange={(e) => setPersonalBio(e.target.value)}
               required
             />
           </div>
-          <div className="form-group">
-            <label htmlFor="previousCoaching">Have you done any sports coaching before?</label>
+          <div className={styles.formGroup}>
+            <label htmlFor="previousCoaching" className={styles.formLabel}>Have you done any sports coaching before?</label>
             <select
               id="previousCoaching"
+              className={styles.formInput}
               value={previousCoaching}
               onChange={(e) => setPreviousCoaching(e.target.value)}
               required
@@ -73,7 +89,9 @@ function CoachQuestionnairePageOne() {
               <option value="No">No</option>
             </select>
           </div>
-          <button type="submit">Next</button>
+          <div className={styles.buttonGroup}>
+            <button type="submit" className={styles.nextButton}>Next</button>
+          </div>
         </form>
       </div>
     </div>
