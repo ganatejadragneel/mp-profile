@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import './App.css';
 import LandingPage from './components/LandingPage';
+import AthleteSignupPage from './components/AthleteSignupPage'; // Add this import
 import StudentQuestionnairePageOne from './components/StudentQuestionnairePageOne';
 import StudentQuestionnairePageTwo from './components/StudentQuestionnairePageTwo.js';
 import StudentProfilePage from './components/StudentProfilePage';
@@ -13,7 +14,8 @@ import EditAthleteProfile from './components/EditAthleteProfile';
 import BookingPage from './components/BookingPage';
 import CoachSessionsPage from './components/CoachSessionsPage';
 import AthleteLoginPage from './components/AthleteLoginPage';
-import CoachLoginPage from './components/CoachLoginPage'; // Add this import
+import CoachLoginPage from './components/CoachLoginPage';
+import CoachSignupPage from './components/CoachSignupPage';
 
 function App() {
   return (
@@ -22,7 +24,8 @@ function App() {
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/athlete-login" element={<AthleteLoginPage />} />
-          <Route path="/coach-login" element={<CoachLoginPage />} /> {/* Add this new route */}
+          <Route path="/athlete-signup" element={<AthleteSignupPage />} /> {/* Add this new route */}
+          <Route path="/coach-login" element={<CoachLoginPage />} />
           <Route path="/student-questionnaire-1" element={<StudentQuestionnairePageOne />} />
           <Route path="/student-questionnaire-2" element={<StudentQuestionnairePageTwo />} />
           <Route path="/data-summary" element={<StudentProfilePage />} />
@@ -33,6 +36,7 @@ function App() {
           <Route path="/edit-athlete-profile" element={<EditAthleteProfile />} />
           <Route path="/booking" element={<BookingPage />} />
           <Route path="/coach-sessions" element={<CoachSessionsPage />} />
+          <Route path="/coach-signup" element={<CoachSignupPage />} />
         </Routes>
       </div>
     </Router>

@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './LandingPage.css';
-import AthleteSignupPopup from './AthleteSignupPopup';
 import CoachSignupPopup from './CoachSignupPopup';
 
 function LandingPage() {
   const [activeForm, setActiveForm] = useState('athlete');
-  const [showAthleteSignupPopup, setShowAthleteSignupPopup] = useState(false);
   const [showCoachSignupPopup, setShowCoachSignupPopup] = useState(false);
   const navigate = useNavigate();
 
@@ -17,9 +15,9 @@ function LandingPage() {
   const handleSignupClick = (e) => {
     e.preventDefault();
     if (activeForm === 'athlete') {
-      setShowAthleteSignupPopup(true);
+      navigate('/athlete-signup');
     } else {
-      setShowCoachSignupPopup(true);
+      navigate('/coach-signup');
     }
   };
 
@@ -33,7 +31,6 @@ function LandingPage() {
   };
 
   const handlePopupClose = () => {
-    setShowAthleteSignupPopup(false);
     setShowCoachSignupPopup(false);
   };
 
@@ -46,7 +43,7 @@ function LandingPage() {
         <img 
           src="/icon.png" 
           alt="Mindful Performance Logo" 
-          className="logo mindful-performance-logo" // Added a more specific class
+          className="logo mindful-performance-logo"
         />
         <h1 className="section-title">Welcome to Mindful Performance</h1>
         <h2 className="section-subtitle">Are you an Athlete or Coach?</h2>
@@ -73,7 +70,6 @@ function LandingPage() {
           </button>
         </div>
       </div>
-      {showAthleteSignupPopup && <AthleteSignupPopup onClose={handlePopupClose} />}
       {showCoachSignupPopup && <CoachSignupPopup onClose={handlePopupClose} />}
     </div>
   );

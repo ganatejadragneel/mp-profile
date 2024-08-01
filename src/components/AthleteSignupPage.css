@@ -1,0 +1,164 @@
+.athlete-signup-container {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    min-height: 100vh !important;
+    background-image: url('../assets/landing.jpg') !important;
+    background-size: cover !important;
+    background-position: center !important;
+}
+
+.signup-form-container {
+    background-color: white !important;
+    padding: 2rem !important;
+    border-radius: 0.5rem !important;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1) !important;
+    width: 100% !important;
+    max-width: 400px !important;
+    position: relative !important;
+}
+
+.logo-container {
+    padding-top: 0.5rem !important;
+    position: absolute !important;
+    top: 0.5rem !important;
+    left: 0.5rem !important;
+}
+
+.logo {
+    height: 2rem !important ;
+    width: auto !important; 
+    max-width: 90% !important;
+}
+
+.form-title {
+    font-size: 1.5rem !important;
+    font-weight: bold !important;
+    margin-top: -0.6rem !important;
+    margin-bottom: 2rem !important;
+    text-align: center !important;
+}
+
+.form-group {
+    margin-bottom: 1.5rem !important;
+    display: flex !important;
+    align-items: center !important;
+}
+
+.form-label {
+    display: block !important;
+    font-size: 0.875rem !important;
+    font-weight: 500 !important;
+    margin-right: 1rem !important;
+    text-align: left !important;
+    width: 30% !important;
+    color: black !important;
+}
+
+.form-input {
+    flex: 1 !important;
+    padding: 0.5rem !important;
+    border: 1px solid #d1d5db !important;
+    border-radius: 0.25rem !important;
+}
+
+.button-group {
+    display: flex !important;
+    justify-content: space-between !important;
+    margin-top: 1rem !important;
+}
+
+.signup-button,
+.cancel-button {
+    padding: 0.4rem 1rem !important;
+    border-radius: 0.25rem !important;
+    font-weight: 500 !important;
+    color: white !important;
+    border: none !important;
+    cursor: pointer !important;
+    flex: 0.75 !important;
+    margin: 0 0.4rem !important;
+}
+
+.signup-button {
+    background-color: #123B5E !important;
+}
+
+.signup-button:hover {
+    background-color: #0e2e4a !important;
+}
+
+.cancel-button {
+    background-color: #5B3D54 !important;
+}
+
+.cancel-button:hover {
+    background-color: #4a3144 !important;
+}
+
+.divider {
+    display: flex !important;
+    align-items: center !important;
+    margin: 1rem 0 !important;
+}
+
+.divider-text {
+    margin: 0 0.5rem !important;
+    color: #6b7280 !important;
+    font-weight: bold !important;
+}
+
+.social-login-buttons {
+    display: flex !important;
+    justify-content: center !important;
+    gap: 1rem !important;
+}
+
+.social-login-buttons {
+    display: flex !important;
+    justify-content: center !important;
+    gap: 1rem !important;
+  }
+  
+  .social-button {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 3rem !important;
+    height: 3rem !important;
+    border-radius: 50% !important;
+    background-color: #fff !important;
+    border: 2px solid #d1d5db !important;
+    cursor: pointer !important;
+    transition: background-color 0.3s ease !important;
+    padding: 0 !important;
+    position: relative !important; /* Added to position the icon */
+  }
+  
+  .social-button:hover {
+    background-color: #f3f4f6 !important;
+  }
+  
+  .social-icon {
+    width: 60% !important; 
+    height: 60% !important; 
+    position: absolute !important; /* Added to center the icon */
+    top: 50% !important; /* Added to center the icon */
+    left: 50% !important; /* Added to center the icon */
+    transform: translate(-50%, -50%) !important; /* Added to center the icon */
+  }
+
+  .google .social-icon,
+  .facebook .social-icon {
+    fill: #000 !important; /* Changed the fill color to black for Google and Facebook icons */
+  }
+  
+  .apple .social-icon {
+    fill: #000000 !important;
+  }
+
+  .divider-line {
+    flex-grow: 1 !important;
+    height: 1px !important;
+    background-color: #000 !important;
+  }
