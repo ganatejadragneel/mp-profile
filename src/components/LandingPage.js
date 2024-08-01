@@ -46,8 +46,7 @@ function LandingPage() {
         <img 
           src="/icon.png" 
           alt="Mindful Performance Logo" 
-          className="logo"
-          style={{ width: '240px', height: '240px', objectFit: 'contain' }}
+          className="logo mindful-performance-logo" // Added a more specific class
         />
         <h1 className="section-title">Welcome to Mindful Performance</h1>
         <h2 className="section-subtitle">Are you an Athlete or Coach?</h2>
