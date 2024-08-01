@@ -1,22 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import './CoachProfilePage.css';
+import styles from './CoachProfilePage.module.css';
 import { API_URL } from './api';
-import defaultImage from '../assets/haik.jpeg';
+import defaultImg from '../assets/haik.jpeg';
 
 function CoachProfilePage() {
   const location = useLocation();
   const coachData = location.state?.coachData || {};
-  const [profileImage, setProfileImage] = useState(defaultImage);
+  const [profileImage, setProfileImage] = useState(defaultImg);
   const [fileToUpload, setFileToUpload] = useState(null);
   const [showPopup, setShowPopup] = useState(false);
 
   const navigate = useNavigate();
-
-  const handleLogout = () => {
-    navigate('/');
-  };
 
   useEffect(() => {
     if (coachData.profileImage) {
@@ -33,70 +29,103 @@ function CoachProfilePage() {
       try {
         const formData = new FormData();
         formData.append('profileImage', fileToUpload);
-
+  
         const response = await axios.put(`${API_URL}/coaches/${coachData._id}`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
         });
-
-        console.log('Profile image uploaded successfully:', response.data);
-        // Update the coachData state with the new profileImage URL
+  
         setProfileImage(response.data.profileImage);
         setFileToUpload(null);
-
-        // Show the success popup
+  
         setShowPopup(true);
         setTimeout(() => {
           setShowPopup(false);
         }, 1000);
       } catch (error) {
         console.error('Error uploading profile image:', error);
-        // Handle the error, show an error message, or take appropriate action
       }
     }
-  };
-
-  const handleEditProfile = () => {
-    navigate('/edit-coach-profile', { state: { coachData } });
   };
 
   const handleMySessions = () => {
     navigate('/coach-sessions', { state: { coachData } });
   };
 
+  const handleEditProfile = () => {
+    navigate('/edit-coach-profile', { state: { coachData } });
+  };
+
+  const handleLogout = () => {
+    navigate('/');
+  };
+
   return (
-    <div className="coach-profile-page">
-      <div className="profile-container">
-        <h2>Coach Profile</h2>
-        <div className="profile-image">
-          {profileImage ? (
-            <img src={profileImage} alt="Profile" />
-          ) : (
-            <img src={defaultImage} alt="Default" />
-          )}
+    <div className={styles.profilePage}>
+      <h1 className={styles.pageTitle}>Coach Profile</h1>
+      <div className={styles.profileImageContainer}>
+        <img src={profileImage} alt="Profile" className={styles.profileImage} />
+      </div>
+      <h2 className={styles.coachName}>Hi {coachData.fullName.split(' ')[0]}!</h2>
+      <div className={styles.imageUploadContainer}>
+        <div className={styles.fileInputGroup}>
+          <input
+            type="file"
+            onChange={handleFileChange}
+            className={styles.fileInput}
+            id="fileInput"
+          />
+          <label htmlFor="fileInput" className={styles.chooseFileButton}>Choose File</label>
+          <span className={styles.fileName}>{fileToUpload ? fileToUpload.name : 'No file chosen'}</span>
         </div>
-        <input type="file" onChange={handleFileChange} />
-        <button onClick={handleUploadImage}>Upload Image</button>
-        <div className="profile-info">
-          <p><strong>Full Name:</strong> {coachData.fullName}</p>
-          <p><strong>Email:</strong> {coachData.email}</p>
-          <p><strong>Coaching Experience:</strong> {coachData.coaching}</p>
-          <p><strong>Area of Expertise:</strong> {coachData.expertise}</p>
-          <p><strong>Comfortable Age Group:</strong> {coachData.ageGroup}</p>
-          <p><strong>Certifications:</strong> {coachData.certifications}</p>
-          <p><strong>Dealing with Students:</strong> {coachData.goodDealing}</p>
-          <p><strong>Personal Bio:</strong> {coachData.personalBio}</p>
-          <p><strong>Previous Sports Coaching:</strong> {coachData.previousCoaching}</p>
+        <button onClick={handleUploadImage} className={styles.uploadButton}>Upload Image</button>
+      </div>
+      <div className={styles.profileInfo}>
+        <div className={styles.infoRow}>
+          <span className={styles.infoLabel}>Full name:</span>
+          <span className={styles.infoValue}>{coachData.fullName}</span>
         </div>
-        <div className="profile-actions">
-          <button onClick={handleMySessions}>My Sessions</button>
-          <button onClick={handleEditProfile}>Edit Profile</button>
-          <button onClick={handleLogout}>Log Out</button>
+        <div className={styles.infoRow}>
+          <span className={styles.infoLabel}>Email:</span>
+          <span className={styles.infoValue}>{coachData.email}</span>
+        </div>
+        <div className={styles.infoRow}>
+          <span className={styles.infoLabel}>Coaching:</span>
+          <span className={styles.infoValue}>{coachData.coaching}</span>
+        </div>
+        <div className={styles.infoRow}>
+          <span className={styles.infoLabel}>Expertise:</span>
+          <span className={styles.infoValue}>{coachData.expertise}</span>
+        </div>
+        <div className={styles.infoRow}>
+          <span className={styles.infoLabel}>Age Group:</span>
+          <span className={styles.infoValue}>{coachData.ageGroup}</span>
+        </div>
+        <div className={styles.infoRow}>
+          <span className={styles.infoLabel}>Certifications:</span>
+          <span className={styles.infoValue}>{coachData.certifications}</span>
+        </div>
+        <div className={styles.infoRow}>
+          <span className={styles.infoLabel}>Dealing with Students:</span>
+          <span className={styles.infoValue}>{coachData.goodDealing}</span>
+        </div>
+        <div className={styles.infoRow}>
+          <span className={styles.infoLabel}>Personal Bio:</span>
+          <span className={styles.infoValue}>{coachData.personalBio}</span>
+        </div>
+        <div className={styles.infoRow}>
+          <span className={styles.infoLabel}>Previous Coaching:</span>
+          <span className={styles.infoValue}>{coachData.previousCoaching}</span>
         </div>
       </div>
+      <div className={styles.buttonGroup}>
+        <button onClick={handleMySessions} className={styles.actionButton}>My Sessions</button>
+        <button onClick={handleEditProfile} className={styles.actionButton}>Edit Profile</button>
+        <button onClick={handleLogout} className={styles.actionButton}>Log Out</button>
+      </div>
       {showPopup && (
-        <div className="popup">
+        <div className={styles.popup}>
           <p>Image uploaded successfully</p>
         </div>
       )}

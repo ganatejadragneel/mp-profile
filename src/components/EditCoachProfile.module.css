@@ -1,0 +1,118 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Poppins:wght@400;700&display=swap');
+
+.editProfilePage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #fff5e6;
+  padding: 40px;
+  box-sizing: border-box;
+}
+
+.pageTitle {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.editForm {
+  width: 100%;
+  max-width: 500px;
+}
+
+.formGroup {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.label {
+  flex: 0 0 40%;
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: #123B5E;
+  text-align: left;
+  padding-right: 10px;
+}
+
+.input,
+.textarea {
+  flex: 1;
+  padding: 10px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  color: #333;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  box-sizing: border-box;
+}
+
+.textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.buttonGroup {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+}
+
+.saveButton,
+.cancelButton {
+  padding: 10px 20px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.saveButton {
+  background-color: #123B5E;
+}
+
+.saveButton:hover {
+  background-color: #0e2e4a;
+}
+
+.cancelButton {
+  background-color: #5B6C9B;
+}
+
+.cancelButton:hover {
+  background-color: #4a5a84;
+}
+
+@media (max-width: 600px) {
+  .editProfilePage {
+    padding: 20px;
+  }
+  
+  .editForm {
+    width: 100%;
+  }
+
+  .formGroup {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .label {
+    flex: none;
+    width: 100%;
+    margin-bottom: 5px;
+  }
+
+  .input,
+  .textarea {
+    width: 100%;
+  }
+}

@@ -1,0 +1,161 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Poppins:wght@400;700&display=swap');
+
+.profilePage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #fff;
+  padding: 40px;
+  box-sizing: border-box;
+}
+
+.pageTitle {
+  color: #333;
+  font-size: 24px;
+  margin-bottom: 20px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+}
+
+.profileImageContainer {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin: 0 auto 20px;
+}
+
+.profileImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.athleteName {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 20px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+}
+
+.imageUploadContainer {
+  width: 100%;
+  max-width: 500px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.fileInput {
+  display: none;
+}
+
+.fileInputGroup {
+  display: flex;
+  align-items: center;
+}
+
+.chooseFileButton {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #D8DCDE;
+  color: #333;
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: 'Montserrat', sans-serif;
+  margin-right: 10px;
+}
+
+.fileName {
+  font-family: 'Poppins', sans-serif;
+  color: #5B3D54;
+}
+
+.uploadButton {
+  padding: 10px 20px;
+  background-color: #5B6C9B;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.profileInfo {
+  width: 100%;
+  max-width: 500px;
+  text-align: left;
+  margin-bottom: 30px;
+}
+
+.infoRow {
+  display: flex;
+  margin-bottom: 10px;
+  font-family: 'Poppins', sans-serif;
+}
+
+.infoLabel {
+  flex: 0 0 50%;
+  font-weight: bold;
+  color: #123B5E;
+}
+
+.infoValue {
+  flex: 1;
+  color: #5B3D54;
+}
+
+.buttonGroup {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 500px; /* Match the width of profileInfo */
+  margin-top: 20px; /* Add some space between profile info and buttons */
+}
+
+.actionButton {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #123B5E;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: 'Montserrat', sans-serif;
+  /* Remove any margins that might affect positioning */
+  margin: 0;
+}
+
+.popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 999;
+  font-family: 'Poppins', sans-serif;
+}
+
+@media (max-width: 600px) {
+  .profilePage {
+    padding: 20px;
+  }
+
+  .profileInfo {
+    width: 100%;
+  }
+
+  .infoRow {
+    flex-direction: column;
+  }
+
+  .infoLabel {
+    margin-bottom: 5px;
+  }
+}
