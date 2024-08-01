@@ -19,47 +19,49 @@
   }
   
   .logo-container {
-    padding-top: 0.5rem;
     position: absolute;
     top: 0.5rem;
     left: 0.5rem;
   }
   
   .logo {
-    height: 2rem !important;
-    width: auto; 
+    height: 2rem;
+    width: auto;
     max-width: 90%;
   }
   
   .form-title {
     font-size: 1.5rem;
     font-weight: bold;
-    margin-top: -0.6rem; /* Added this line to move the title up */
     margin-bottom: 2rem;
     text-align: center;
+    color: #23395d;
   }
   
   .form-group {
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
     display: flex;
     align-items: center;
   }
   
   .form-label {
-    display: block;
+    flex: 0 0 30%;
     font-size: 0.875rem;
-    font-weight: 500;
-    margin-bottom: 0.5rem;
+    font-weight: bold;
+    color: #000;
+    margin-left: 1rem;
+    margin-right: 0.5rem;
     text-align: left;
-    margin-left: 1.5rem;
   }
   
   .form-input {
-    flex: 1;
-    width: 100%;
+    flex: 0 0 55%;
     padding: 0.5rem;
     border: 1px solid #d1d5db;
     border-radius: 0.25rem;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #000;
   }
   
   .error-message {
@@ -71,7 +73,7 @@
   .button-group {
     display: flex;
     justify-content: space-between;
-    margin-top: 1rem;
+    margin-top: 1.5rem;
   }
   
   .login-button,
@@ -82,24 +84,24 @@
     color: white;
     border: none;
     cursor: pointer;
-    flex: 0.5;  /* Added this line */
-    margin: 0 0.8rem;  /* Added this line */
+    flex: 0.5;
+    margin: 0 0.8rem;
   }
   
   .login-button {
-    background-color: #123B5E !important;;
+    background-color: #123B5E;
   }
   
   .login-button:hover {
-    background-color: #0e2e4a !important;;
+    background-color: #0e2e4a;
   }
   
   .cancel-button {
-    background-color: #5B3D54 !important;;
+    background-color: #5B3D54;
   }
   
   .cancel-button:hover {
-    background-color: #4a3144 !important;;
+    background-color: #4a3144;
   }
   
   .forgot-password {

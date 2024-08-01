@@ -1,163 +1,165 @@
 .athlete-login-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    background-image: url('../assets/landing.jpg');
-    background-size: cover;
-    background-position: center;
-  }
-  
-  .login-form-container {
-    background-color: white;
-    padding: 2rem;
-    border-radius: 0.5rem;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 400px;
-    position: relative;
-  }
-  
-  .logo-container {
-    padding-top: 0.5rem;
-    position: absolute;
-    top: 0.5rem;
-    left: 0.5rem;
-  }
-  
-  .logo {
-    height: 2rem !important;
-    width: auto; 
-    max-width: 90%;
-  }
-  
-  .form-title {
-    font-size: 1.5rem;
-    font-weight: bold;
-    margin-top: -0.6rem; /* Added this line to move the title up */
-    margin-bottom: 2rem;
-    text-align: center;
-  }
-  
-  .form-group {
-    margin-bottom: 1.5rem;
-    display: flex;
-    align-items: center;
-  }
-  
-  .form-label {
-    display: block;
-    font-size: 0.875rem;
-    font-weight: 500;
-    margin-bottom: 0.5rem;
-    text-align: left;
-    margin-left: 1.5rem;
-  }
-  
-  .form-input {
-    flex: 1;
-    width: 100%;
-    padding: 0.5rem;
-    border: 1px solid #d1d5db;
-    border-radius: 0.25rem;
-  }
-  
-  .error-message {
-    color: #ef4444;
-    font-size: 0.875rem;
-    margin-bottom: 1rem;
-  }
-  
-  .button-group {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 1rem;
-  }
-  
-  .login-button,
-  .cancel-button {
-    padding: 0.5rem 1rem;
-    border-radius: 0.25rem;
-    font-weight: 500;
-    color: white;
-    border: none;
-    cursor: pointer;
-    flex: 0.5;  /* Added this line */
-    margin: 0 0.8rem;  /* Added this line */
-  }
-  
-  .login-button {
-    background-color: #123B5E !important;;
-  }
-  
-  .login-button:hover {
-    background-color: #0e2e4a !important;;
-  }
-  
-  .cancel-button {
-    background-color: #5B3D54 !important;;
-  }
-  
-  .cancel-button:hover {
-    background-color: #4a3144 !important;;
-  }
-  
-  .forgot-password {
-    display: block;
-    text-align: center;
-    margin-top: 1rem;
-    font-size: 0.875rem;
-    color: #3b82f6;
-    text-decoration: none;
-  }
-  
-  .forgot-password:hover {
-    text-decoration: underline;
-  }
-  
-  .divider {
-    display: flex;
-    align-items: center;
-    margin: 1rem 0;
-  }
-  
-  .divider-line {
-    flex-grow: 1;
-    height: 1px;
-    background-color: #d1d5db;
-  }
-  
-  .divider-text {
-    margin: 0 0.5rem;
-    color: #6b7280;
-  }
-  
-  .social-login-buttons {
-    display: flex;
-    justify-content: space-between;
-  }
-  
-  .social-button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0.5rem 1rem;
-    border-radius: 0.25rem;
-    font-weight: 300;
-    font-size: 0.8rem;
-    color: #333;
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-    width: 58%;
-  }
-  
-  .social-button:hover {
-    background-color: #f3f4f6;
-  }
-  
-  .social-icon {
-    width: 1rem;
-    height: 1rem;
-    margin-right: 0.5rem;
-  }
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-image: url('../assets/landing.jpg');
+  background-size: cover;
+  background-position: center;
+}
+
+.login-form-container {
+  background-color: white;
+  padding: 2rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+  position: relative;
+}
+
+.logo-container {
+  position: absolute;
+  top: 0.5rem;
+  left: 0.5rem;
+}
+
+.logo {
+  height: 2rem;
+  width: auto;
+  max-width: 90%;
+}
+
+.form-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 2rem;
+  text-align: center;
+  color: #23395d;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+}
+
+.form-label {
+  flex: 0 0 30%;
+  font-size: 0.875rem;
+  font-weight: bold;
+  color: #000;
+  margin-left: 1rem;
+  margin-right: 0.5rem;
+  text-align: left;
+}
+
+.form-input {
+  flex: 0 0 55%;
+  padding: 0.5rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.25rem;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #000;
+}
+
+.error-message {
+  color: #ef4444;
+  font-size: 0.875rem;
+  margin-bottom: 1rem;
+}
+
+.button-group {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1.5rem;
+}
+
+.login-button,
+.cancel-button {
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  font-weight: 500;
+  color: white;
+  border: none;
+  cursor: pointer;
+  flex: 0.5;
+  margin: 0 0.8rem;
+}
+
+.login-button {
+  background-color: #123B5E;
+}
+
+.login-button:hover {
+  background-color: #0e2e4a;
+}
+
+.cancel-button {
+  background-color: #5B3D54;
+}
+
+.cancel-button:hover {
+  background-color: #4a3144;
+}
+
+.forgot-password {
+  display: block;
+  text-align: center;
+  margin-top: 1rem;
+  font-size: 0.875rem;
+  color: #3b82f6;
+  text-decoration: none;
+}
+
+.forgot-password:hover {
+  text-decoration: underline;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  margin: 1rem 0;
+}
+
+.divider-line {
+  flex-grow: 1;
+  height: 1px;
+  background-color: #d1d5db;
+}
+
+.divider-text {
+  margin: 0 0.5rem;
+  color: #6b7280;
+}
+
+.social-login-buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+.social-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  font-weight: 300;
+  font-size: 0.8rem;
+  color: #333;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  width: 58%;
+}
+
+.social-button:hover {
+  background-color: #f3f4f6;
+}
+
+.social-icon {
+  width: 1rem;
+  height: 1rem;
+  margin-right: 0.5rem;
+}
