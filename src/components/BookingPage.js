@@ -132,46 +132,53 @@ function BookingPage() {
     </div>
   );
 
-  const renderBookings = () => (
-    <div className={styles.bookingsTableContainer}>
-      <table className={styles.bookingsTable}>
-        <thead>
-          <tr>
-            <th>Coach Name</th>
-            <th>Date</th>
-            <th>Time</th>
-            <th>Channel ID</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          {bookings.map((booking) => {
-            const status = calculateStatus(booking.bookingDate);
-            return (
-              <tr key={booking._id}>
-                <td>{booking.coachName}</td>
-                <td>{booking.bookingDate}</td>
-                <td>{`${booking.startTime} - ${booking.endTime}`}</td>
-                <td>{booking.channelId}</td>
-                <td>
-                  {status === 'Join' ? (
-                    <button
-                      className={styles.joinButton}
-                      onClick={() => handleJoinMeeting(booking.channelId)}
-                    >
-                      Join
-                    </button>
-                  ) : (
-                    status
-                  )}
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
-    </div>
-  );
+  const renderBookings = () => {
+    const currentDate = new Date().toISOString().split('T')[0];
+    const upcomingBookings = bookings
+      .filter(booking => booking.bookingDate >= currentDate)
+      .sort((a, b) => new Date(a.bookingDate) - new Date(b.bookingDate));
+  
+    return (
+      <div className={styles.bookingsTableContainer}>
+        <table className={styles.bookingsTable}>
+          <thead>
+            <tr>
+              <th>Coach Name</th>
+              <th>Date</th>
+              <th>Time</th>
+              <th>Channel ID</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {upcomingBookings.map((booking) => {
+              const status = calculateStatus(booking.bookingDate);
+              return (
+                <tr key={booking._id}>
+                  <td>{booking.coachName}</td>
+                  <td>{booking.bookingDate}</td>
+                  <td>{`${booking.startTime} - ${booking.endTime}`}</td>
+                  <td>{booking.channelId}</td>
+                  <td>
+                    {status === 'Join' ? (
+                      <button
+                        className={styles.joinButton}
+                        onClick={() => handleJoinMeeting(booking.channelId)}
+                      >
+                        Join
+                      </button>
+                    ) : (
+                      status
+                    )}
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+    );
+  };
 
   return (
     <div className={styles.bookingPage}>

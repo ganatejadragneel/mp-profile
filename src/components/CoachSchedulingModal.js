@@ -24,9 +24,9 @@ function CoachSchedulingModal({ coach, onClose, athleteData }) {
 
   const fetchCoachAvailability = async () => {
     try {
-      console.log('Fetching availability for coach:', coach._id);
+
       const response = await axios.get(`${API_URL}/coaches/${coach._id}/availability`);
-      console.log('Received availability:', response.data);
+
       setCoachAvailability(response.data.availableTimings);
     } catch (error) {
       console.error('Error fetching coach availability:', error);
@@ -95,16 +95,11 @@ function CoachSchedulingModal({ coach, onClose, athleteData }) {
   // Convert date strings to Date objects, adding one day to correct the offset
   const availableDates = coachAvailability.map(a => parseISO(a.date));
 
-  console.log('Available dates:', availableDates);
-
   const availableTimes = selectedDate
   ? (coachAvailability.find(a => format(parseISO(a.date), 'yyyy-MM-dd') === format(selectedDate, 'yyyy-MM-dd'))?.times || [])
   : [];
 
-  console.log('Available times for selected date:', availableTimes);
-
-  const filteredTimeSlots = timeSlots.filter(time => availableTimes.includes(time));
-  console.log('Filtered time slots:', filteredTimeSlots);
+  const filteredTimeSlots = timeSlots.filter(time => availableTimes.includes(time))
 
   return (
     <div className={styles.modalOverlay}>
