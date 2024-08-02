@@ -1,4 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
 
 .coachSessionsPage {
   display: flex;
@@ -177,32 +179,96 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.timeSlotSelector {
-  flex: 1;
-  padding: 20px;
-  background-color: #f5f5f5;
-  border-radius: 8px;
+.calendar :global(.react-calendar__navigation__label) {
+  font-size: 24px;
+  color: #5B3D54;
+  font-family: 'Roboto', sans-serif;
+}
+
+/* Ensure all calendar tiles are circular */
+.calendar :global(.react-calendar__tile) {
+  border-radius: 50% !important;
+  aspect-ratio: 1 / 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Style for available dates */
+.availableDate {
+  background-color: #4CAF50 !important;
+  color: white !important;
+}
+
+.availableDate abbr {
+  color: white !important;
+}
+
+/* Style for the current day */
+.calendar :global(.react-calendar__tile--now) {
+  background-color: #ffff76 !important;
+}
+
+/* Style for the selected day */
+.calendar :global(.react-calendar__tile--active) {
+  background-color: #006edc !important;
+  color: white !important;
+}
+
+/* Ensure the content of the tile is centered and circular */
+.calendar :global(.react-calendar__tile abbr) {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 180%;
+  height: 100%;
+  border-radius: 50%;
+}
+
+.timeSlotSelector h3 {
+  color: #5B3D54;
+  margin-bottom: 15px;
 }
 
 .timeSlots {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-  gap: 10px;
+  gap: 15px;
   margin-top: 10px;
+  border: 2px solid #e0e0e0;
+  padding: 15px;
+  border-radius: 15px;
 }
 
 .timeSlot {
   padding: 10px;
   background-color: #fff;
-  border: 1px solid #ccc;
+  border: 2px solid #ccc;
   border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.3s;
+  font-size: 14px;
+  text-align: center;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
 }
 
 .timeSlot.selected {
   background-color: #123B5E;
   color: #fff;
+  border-color: #123B5E;
+}
+
+.timeSlot.booked {
+  background-color: #ffe6e6;
+  border-color: #FF5733;
+  cursor: not-allowed;
+}
+
+.timeSlot:disabled {
+  opacity: 0.6;
 }
 
 .saveButton {

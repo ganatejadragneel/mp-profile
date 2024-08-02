@@ -3,8 +3,9 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import axios from 'axios';
 import { API_URL } from './api';
-import { format, addMinutes } from 'date-fns';
+import { format, addMinutes, parseISO, addDays } from 'date-fns';
 import { generateChannelId } from '../utils';
+import styles from './CoachSchedulingModal.module.css';
 
 function CoachSchedulingModal({ coach, onClose, athleteData }) {
   const [selectedDate, setSelectedDate] = useState(null);
@@ -23,7 +24,9 @@ function CoachSchedulingModal({ coach, onClose, athleteData }) {
 
   const fetchCoachAvailability = async () => {
     try {
+      console.log('Fetching availability for coach:', coach._id);
       const response = await axios.get(`${API_URL}/coaches/${coach._id}/availability`);
+      console.log('Received availability:', response.data);
       setCoachAvailability(response.data.availableTimings);
     } catch (error) {
       console.error('Error fetching coach availability:', error);
@@ -89,23 +92,31 @@ function CoachSchedulingModal({ coach, onClose, athleteData }) {
     }
   };
 
-  const availableDates = coachAvailability.map(a => new Date(a.date));
+  // Convert date strings to Date objects, adding one day to correct the offset
+  const availableDates = coachAvailability.map(a => parseISO(a.date));
+
+  console.log('Available dates:', availableDates);
 
   const availableTimes = selectedDate
-    ? coachAvailability.find(a => a.date === format(selectedDate, 'yyyy-MM-dd'))?.times || []
-    : [];
+  ? (coachAvailability.find(a => format(parseISO(a.date), 'yyyy-MM-dd') === format(selectedDate, 'yyyy-MM-dd'))?.times || [])
+  : [];
+
+  console.log('Available times for selected date:', availableTimes);
+
+  const filteredTimeSlots = timeSlots.filter(time => availableTimes.includes(time));
+  console.log('Filtered time slots:', filteredTimeSlots);
 
   return (
-    <div className="modal-overlay">
-      <div className="modal-content">
-        <h2>Schedule Coach</h2>
-        <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label>Coach Name:</label>
-            <span>{coach.fullName}</span>
+    <div className={styles.modalOverlay}>
+      <div className={styles.modalContent}>
+        <h2 className={styles.modalTitle}>Schedule Coach</h2>
+        <form onSubmit={handleSubmit} className={styles.modalForm}>
+          <div className={styles.formGroup}>
+            <label className={styles.formLabel}>Coach Name:</label>
+            <span className={styles.formValue}>{coach.fullName}</span>
           </div>
-          <div className="form-group">
-            <label>Date:</label>
+          <div className={styles.formGroup}>
+            <label className={styles.formLabel}>Date:</label>
             <DatePicker
               selected={selectedDate}
               onChange={handleDateChange}
@@ -113,22 +124,24 @@ function CoachSchedulingModal({ coach, onClose, athleteData }) {
               minDate={new Date()}
               includeDates={availableDates}
               highlightDates={availableDates}
+              placeholderText="Select a date"
+              className={styles.datePicker}
             />
           </div>
-          <div className="form-group">
-            <label>Start Time:</label>
-            <select value={selectedStartTime} onChange={handleStartTimeChange}>
+          <div className={styles.formGroup}>
+            <label className={styles.formLabel}>Start Time:</label>
+            <select value={selectedStartTime} onChange={handleStartTimeChange} className={styles.timeSelect}>
               <option value="">Select Start Time</option>
-              {timeSlots.filter(time => availableTimes.includes(time)).map(time => (
+              {filteredTimeSlots.map(time => (
                 <option key={time} value={time}>{time}</option>
               ))}
             </select>
           </div>
-          <div className="button-group">
-            <button type="submit" disabled={!selectedDate || !selectedStartTime}>
+          <div className={styles.buttonGroup}>
+            <button type="submit" disabled={!selectedDate || !selectedStartTime} className={styles.scheduleButton}>
               Schedule
             </button>
-            <button type="button" onClick={onClose} className="cancel-button">
+            <button type="button" onClick={onClose} className={styles.cancelButton}>
               Cancel
             </button>
           </div>

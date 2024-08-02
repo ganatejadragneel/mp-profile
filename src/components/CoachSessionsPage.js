@@ -47,7 +47,9 @@ function CoachSessionsPage() {
 
   const fetchAvailability = async () => {
     try {
+      console.log('Fetching availability for coach:', coachData._id);
       const response = await axios.get(`${API_URL}/coaches/${coachData._id}/availability`);
+      console.log('Fetched availability:', response.data);
       setAvailability(response.data.availableTimings || []);
     } catch (error) {
       console.error('Error fetching availability:', error);
@@ -83,7 +85,7 @@ function CoachSessionsPage() {
 
   const handleDateClick = (date) => {
     const selectedDate = new Date(date);
-    const dateString = selectedDate.toISOString().split('T')[0];
+    const dateString = formatDateString(selectedDate);
     setSelectedDate(selectedDate);
     const existingAvailability = availability.find(a => a.date === dateString);
     setSelectedTimes(existingAvailability ? existingAvailability.times : []);
@@ -114,27 +116,82 @@ function CoachSessionsPage() {
     const updatedAvailability = availability.filter(a => a.date !== dateString);
     updatedAvailability.push({ date: dateString, times: selectedTimes });
 
+    console.log('Saving availability:', updatedAvailability);
+
     try {
-      await axios.put(`${API_URL}/coaches/${coachData._id}/availability`, {
+      const response = await axios.put(`${API_URL}/coaches/${coachData._id}/availability`, {
         availableTimings: updatedAvailability,
       });
+      console.log('Save availability response:', response.data);
       setAvailability(updatedAvailability);
       alert('Availability saved successfully');
+      fetchAvailability(); // Refresh availability data after saving
     } catch (error) {
       console.error('Error saving availability:', error);
+      if (error.response) {
+        console.error('Error response:', error.response.data);
+      }
       alert('Error saving availability. Please try again.');
     }
   };
 
   const isDateAvailable = (date) => {
     const dateString = formatDateString(date);
-    return availability.some(a => a.date === dateString);
+    const availableDay = availability.find(a => a.date === dateString);
+    return availableDay && availableDay.times.length > 0;
   };
 
   const isTimeSlotBooked = (date, time) => {
     const dateString = formatDateString(date);
     return bookedSlots.some(slot => slot.date === dateString && slot.time === time);
   };
+
+  const renderSchedule = () => (
+    <div className={styles.scheduleContainer}>
+      <Calendar
+        onChange={handleDateClick}
+        value={selectedDate}
+        className={`${styles.calendar} react-calendar`}
+        tileClassName={({ date, view }) => 
+          view === 'month' && isDateAvailable(date) ? styles.availableDate : null
+        }
+        navigationLabel={({ date, view, label }) => (
+          <span style={{ fontSize: '24px', color: '#5B3D54', fontFamily: 'Roboto, sans-serif' }}>
+            {label}
+          </span>
+        )}
+      />
+      {selectedDate && (
+        <div className={styles.timeSlotSelector}>
+          <h3 style={{ color: '#5B3D54' }}>Select available time slots for {formatDateString(selectedDate)}</h3>
+          <div className={styles.timeSlots}>
+            {timeSlots.map(time => {
+              const isBooked = isTimeSlotBooked(selectedDate, time);
+              const isAvailable = selectedTimes.includes(time);
+              return (
+                <button
+                  key={time}
+                  onClick={() => !isBooked && handleTimeSlotToggle(time)}
+                  className={`
+                    ${styles.timeSlot}
+                    ${isAvailable ? styles.selected : ''}
+                    ${isBooked ? styles.booked : ''}
+                  `}
+                  disabled={isBooked}
+                  style={{ fontFamily: 'Poppins, sans-serif', fontWeight: '600' }}
+                >
+                  {time}
+                </button>
+              );
+            })}
+          </div>
+          <button className={styles.saveButton} onClick={handleSaveAvailability}>
+            Save Availability
+          </button>
+        </div>
+      )}
+    </div>
+  );
 
   const renderSessions = () => (
     <div className={styles.sessionsTableContainer}>
@@ -174,43 +231,6 @@ function CoachSessionsPage() {
           })}
         </tbody>
       </table>
-    </div>
-  );
-
-  const renderSchedule = () => (
-    <div className={styles.scheduleContainer}>
-      <Calendar
-        onChange={handleDateClick}
-        value={selectedDate}
-        className={styles.calendar}
-        tileClassName={({ date }) => 
-          isDateAvailable(date) ? styles.availableDate : null
-        }
-      />
-      {selectedDate && (
-        <div className={styles.timeSlotSelector}>
-          <h3>Select available time slots for {formatDateString(selectedDate)}</h3>
-          <div className={styles.timeSlots}>
-            {timeSlots.map(time => (
-              <button
-                key={time}
-                onClick={() => handleTimeSlotToggle(time)}
-                className={`
-                  ${styles.timeSlot}
-                  ${selectedTimes.includes(time) ? styles.selected : ''}
-                  ${isTimeSlotBooked(selectedDate, time) ? styles.booked : ''}
-                `}
-                disabled={isTimeSlotBooked(selectedDate, time)}
-              >
-                {time}
-              </button>
-            ))}
-          </div>
-          <button className={styles.saveButton} onClick={handleSaveAvailability}>
-            Save Availability
-          </button>
-        </div>
-      )}
     </div>
   );
 

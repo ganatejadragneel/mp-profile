@@ -1,0 +1,99 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap');
+
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.modalContent {
+  background-color: #fff;
+  padding: 10px;
+  border-radius: 8px;
+  max-width: 500px;
+  width: 100%;
+  position: relative;
+}
+
+.modalTitle {
+  font-size: 24px;
+  font-weight: 600;
+  color: #5B3D54;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.modalForm {
+  display: flex;
+  flex-direction: column;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.formGroup {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.formLabel {
+  flex: 0 0 40%;
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  margin-right: 10px;
+  text-align: right;
+}
+
+.formValue {
+  font-size: 16px;
+  font-weight: 800;
+  color: #333;
+}
+
+.datePicker,
+.timeSelect {
+  flex: 1;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.buttonGroup {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+}
+
+.scheduleButton,
+.cancelButton {
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  flex: 1;
+  margin: 0 5px;
+}
+
+.scheduleButton {
+  background-color: #123B5E;
+}
+
+.scheduleButton:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.cancelButton {
+  background-color: #5B6C9B;
+}
