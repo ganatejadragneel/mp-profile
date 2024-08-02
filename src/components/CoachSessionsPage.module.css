@@ -1,0 +1,224 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap');
+
+.coachSessionsPage {
+  display: flex;
+  height: 100vh;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.logoColumn {
+  width: 10%;
+  background-color: #123B5E;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: top;
+  padding-left: 10px;
+  padding-top: 20px;
+}
+
+.logo {
+  width: 100%;
+  height: auto;
+  max-height: 50px;
+  filter: brightness(0) invert(1);
+}
+
+.sidebar {
+  width: 20%;
+  background-color: #fff;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 5%;
+}
+
+.sidebarButton {
+  display: flex;
+  align-items: center;
+  padding: 10px 20px;
+  font-size: 16px;
+  text-align: left;
+  background-color: #123B5E;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  margin-bottom: 20px;
+  width: 80%;
+  transition: background-color 0.3s ease;
+}
+
+.sidebarButton.active {
+  background-color: #5B3D54;
+}
+
+.iconCircle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #fff;
+  margin-right: 10px;
+}
+
+.iconCircle svg {
+  color: #123B5E;
+}
+
+.sidebarButton.active .iconCircle svg {
+  color: #5B3D54;
+}
+
+.logoutButton {
+  padding: 10px 20px;
+  font-size: 16px;
+  text-align: center;
+  background-color: #123B5E;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  margin-top: auto;
+  width: 80%;
+}
+
+.mainContent {
+  width: 70%;
+  background-color: #fff;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.titleContainer {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.pageTitle {
+  font-size: 33.6px;
+  font-weight: bold;
+  color: #5B3D54;
+}
+
+.sessionsTableContainer {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.sessionsTable {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin-top: 20px;
+  background-color: #fff;
+  border-left: 1px solid #e0e0e0;
+  border-right: 1px solid #e0e0e0;
+  border-bottom: 1px solid #e0e0e0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.sessionsTable th,
+.sessionsTable td {
+  padding: 12px 15px;
+  text-align: left;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.sessionsTable th {
+  background-color: #fff;
+  color: #123B5E;
+  text-transform: capitalize;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.sessionsTable td {
+  color: #5B3D54;
+}
+
+.sessionsTable tr:last-child td {
+  border-bottom: none;
+}
+
+.joinButton {
+  background-color: #5B3D54;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+.joinButton:hover {
+  background-color: #4a3144;
+}
+
+.scheduleContainer {
+  display: flex;
+  gap: 20px;
+}
+
+.calendar {
+  width: 100%;
+  max-width: 400px;
+  background-color: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.timeSlotSelector {
+  flex: 1;
+  padding: 20px;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+}
+
+.timeSlots {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.timeSlot {
+  padding: 10px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.timeSlot.selected {
+  background-color: #123B5E;
+  color: #fff;
+}
+
+.saveButton {
+  display: block;
+  margin: 20px auto 0;
+  padding: 10px 20px;
+  background-color: #5B3D54;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+.saveButton:hover {
+  background-color: #4a3144;
+}

@@ -1,23 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import Card from '@mui/material/Card';
-import CardHeader from '@mui/material/CardHeader';
-import CardMedia from '@mui/material/CardMedia';
-import CardContent from '@mui/material/CardContent';
-import CardActions from '@mui/material/CardActions';
-import Avatar from '@mui/material/Avatar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import { red } from '@mui/material/colors';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import ShareIcon from '@mui/icons-material/Share';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import Grid from '@mui/material/Grid';
-import './BookingPage.css';
 import { API_URL } from './api';
 import logo from '../assets/logo.png';
 import CoachSchedulingModal from './CoachSchedulingModal';
+import styles from './BookingPage.module.css';
+import { Star, Calendar, User, Heart } from 'lucide-react';
 
 function BookingPage() {
   const location = useLocation();
@@ -35,29 +23,15 @@ function BookingPage() {
   useEffect(() => {
     fetchCoaches();
     fetchAthleteBookings();
-  });
+  }, []);
 
   const fetchCoaches = async () => {
     try {
-        const response = await axios.get(`${API_URL}/coaches`);
-        setCoaches(response.data);
+      const response = await axios.get(`${API_URL}/coaches`);
+      setCoaches(response.data);
     } catch (error) {
       console.error('Error fetching coaches:', error);
     }
-  };
-
-  const handleJoinCall = () => {
-    if (channelId) {
-      window.open(`http://localhost:4321/channel/${channelId}`, '_blank');
-      //window.location.href = `http://localhost:4321/channel/${channelId}`;
-    } else {
-      alert('Please enter a valid channel ID');
-    }
-  };
-
-  const handleMyProfile = () => {
-    setActiveButton('myProfile');
-    navigate('/data-summary', { state: { athleteData } });
   };
 
   const fetchAthleteBookings = async () => {
@@ -80,10 +54,16 @@ function BookingPage() {
     setActiveButton('myCoaches');
   };
 
-  const handlePrecisionMatchClick = () => {
-    const randomCoach = coaches[Math.floor(Math.random() * coaches.length)];
-    setSelectedCoach(randomCoach);
-    setShowPrecisionMatch(true);
+  const handleMyBookingsClick = () => {
+    setShowPrecisionMatch(false);
+    setSelectedCoach(null);
+    setShowBookings(true);
+    setActiveButton('myBookings');
+  };
+
+  const handleMyProfile = () => {
+    setActiveButton('myProfile');
+    navigate('/data-summary', { state: { athleteData } });
   };
 
   const handleScheduleClick = (coach) => {
@@ -95,168 +75,153 @@ function BookingPage() {
     setShowScheduleModal(false);
   };
 
-  const handleMyBookingsClick = () => {
-    setShowPrecisionMatch(false);
-    setSelectedCoach(null);
-    setShowBookings(true);
-    setActiveButton('myBookings');
+  const handlePrecisionMatchClick = () => {
+    const randomCoach = coaches[Math.floor(Math.random() * coaches.length)];
+    setSelectedCoach(randomCoach);
+    setShowPrecisionMatch(true);
   };
 
+  const calculateStatus = (bookingDate) => {
+    const today = new Date();
+    const bookingDay = new Date(bookingDate);
+    const diffTime = bookingDay.getTime() - today.getTime();
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    
+    if (diffDays === 0) {
+      return 'Join';
+    } else if (diffDays > 0) {
+      return `${diffDays} Days Left`;
+    } else {
+      return 'Past';
+    }
+  };
+
+  const handleJoinMeeting = (channelId) => {
+    window.open(`http://localhost:4321/channel/${channelId}`, '_blank');
+  };
+
+  const renderCoaches = () => (
+    <div className={styles.coachList}>
+      {(showPrecisionMatch ? [selectedCoach] : coaches).map((coach) => (
+        <div key={coach._id} className={styles.coachCard}>
+          <div className={styles.coachCardHeader}>
+            <div className={styles.coachAvatarContainer}>
+              <img src={coach.profileImage} alt={coach.fullName} className={styles.coachAvatar} />
+            </div>
+            <div className={styles.coachInfo}>
+              <h3 className={styles.coachName}>{coach.fullName}</h3>
+              <p className={styles.coachDetails}>
+                <span className={styles.coachLabel}>Coaching:</span> {coach.coaching} years
+              </p>
+              <p className={styles.coachDetails}>
+                <span className={styles.coachLabel}>Age Group:</span> {coach.ageGroup}
+              </p>
+            </div>
+            <button className={styles.heartButton}>
+              <Heart size={24} />
+            </button>
+          </div>
+          <div className={styles.coachActions}>
+            <button className={styles.learnMoreButton}>Learn More</button>
+            <button className={styles.scheduleButton} onClick={() => handleScheduleClick(coach)}>
+              Schedule
+            </button>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+
+  const renderBookings = () => (
+    <div className={styles.bookingsTableContainer}>
+      <table className={styles.bookingsTable}>
+        <thead>
+          <tr>
+            <th>Coach Name</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Channel ID</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {bookings.map((booking) => {
+            const status = calculateStatus(booking.bookingDate);
+            return (
+              <tr key={booking._id}>
+                <td>{booking.coachName}</td>
+                <td>{booking.bookingDate}</td>
+                <td>{`${booking.startTime} - ${booking.endTime}`}</td>
+                <td>{booking.channelId}</td>
+                <td>
+                  {status === 'Join' ? (
+                    <button
+                      className={styles.joinButton}
+                      onClick={() => handleJoinMeeting(booking.channelId)}
+                    >
+                      Join
+                    </button>
+                  ) : (
+                    status
+                  )}
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </div>
+  );
+
   return (
-    <div className="booking-page">
-      <div className="taskbar">
-        <img src={logo} alt="Logo" className="logo" />
-        <button className="logout-button" onClick={handleLogout}>
-          Log out
+    <div className={styles.bookingPage}>
+      <div className={styles.logoColumn}>
+        <img src={logo} alt="Logo" className={styles.logo} />
+      </div>
+      <div className={styles.sidebar}>
+        <button
+          className={`${styles.sidebarButton} ${activeButton === 'myCoaches' ? styles.active : ''}`}
+          onClick={handleMyCoachesClick}
+        >
+          <div className={styles.iconCircle}>
+            <Star size={16} />
+          </div>
+          My Coaches
+        </button>
+        <button
+          className={`${styles.sidebarButton} ${activeButton === 'myBookings' ? styles.active : ''}`}
+          onClick={handleMyBookingsClick}
+        >
+          <div className={styles.iconCircle}>
+            <Calendar size={16} />
+          </div>
+          My Bookings
+        </button>
+        <button
+          className={`${styles.sidebarButton} ${activeButton === 'myProfile' ? styles.active : ''}`}
+          onClick={handleMyProfile}
+        >
+          <div className={styles.iconCircle}>
+            <User size={16} />
+          </div>
+          My Profile
+        </button>
+        <button className={styles.logoutButton} onClick={handleLogout}>
+          Log Out
         </button>
       </div>
-      <div className="content">
-        <div className="sidebar">
-          <button className="my-coaches-button" onClick={handleMyCoachesClick}>
-            My Coaches
-          </button>
-          <button className="my-bookings-button" onClick={handleMyBookingsClick}>
-            My Bookings
-          </button>
-          <button className="my-profile-button" onClick={handleMyProfile}>
-            My Profile
-          </button>
+      <div className={styles.mainContent}>
+        <div className={styles.titleContainer}>
+          <h2 className={styles.pageTitle}>{showBookings ? 'My Bookings' : 'My Coaches'}</h2>
         </div>
-        <div className="main-content">
-        {showBookings ? (
-          <>
-            <div className="channel-input">
-              <input
-                type="text"
-                placeholder="Enter channel ID"
-                value={channelId}
-                onChange={(e) => setChannelId(e.target.value)}
-              />
-              <button onClick={handleJoinCall}>Join Call</button>
-            </div>
-            <div className="booking-list">
-              <div className="booking-header">
-                <div className="header-item">Coach Name</div>
-                <div className="header-item">Date</div>
-                <div className="header-item">Time</div>
-                <div className="header-item">Channel ID</div>
-              </div>
-              {bookings.map((booking) => (
-                  <div key={booking._id} className="booking-row">
-                  <div className="booking-item" data-label="Coach Name">{booking.coachName}</div>
-                  <div className="booking-item" data-label="Date">{booking.bookingDate}</div>
-                  <div className="booking-item" data-label="Time">{booking.startTime} - {booking.endTime}</div>
-                  <div className="booking-item" data-label="Channel ID">{booking.channelId}</div>
-                </div>
-              ))}
-            </div>
-          </>
-        ) : !showPrecisionMatch ? (
-            <>
-              <div className="precision-match-container">
-                <button className="precision-match-button" onClick={handlePrecisionMatchClick}>
-                  Precision match
-                </button>
-              </div>
-              <Grid container spacing={2}>
-                {coaches.map((coach) => (
-                  <Grid item xs={12} sm={6} key={coach._id}>
-                    <Card>
-                      <CardHeader
-                        avatar={
-                          <Avatar sx={{ bgcolor: red[500] }} aria-label="coach">
-                            {coach.fullName.charAt(0)}
-                          </Avatar>
-                        }
-                        action={
-                          <IconButton aria-label="settings">
-                            <MoreVertIcon />
-                          </IconButton>
-                        }
-                        title={coach.fullName}
-                        subheader={coach.expertise}
-                      />
-                      <CardMedia
-                        component="img"
-                        height="194"
-                        image={coach.profileImage}
-                        alt={coach.fullName}
-                      />
-                      <CardContent>
-                        <Typography variant="body2" color="text.secondary">
-                          Coaching: {coach.coaching}
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                          Age Group: {coach.ageGroup}
-                        </Typography>
-                      </CardContent>
-                      <CardActions disableSpacing>
-                        <IconButton aria-label="add to favorites">
-                          <FavoriteIcon />
-                        </IconButton>
-                        <IconButton aria-label="share">
-                          <ShareIcon />
-                        </IconButton>
-                        <button className="schedule-button" onClick={() => handleScheduleClick(coach)}>
-                          Schedule
-                        </button>
-                      </CardActions>
-                    </Card>
-                  </Grid>
-                ))}
-              </Grid>
-            </>
-          ) : (
-            <div className="precision-match-result">
-              <Typography variant="h5" align="center" gutterBottom>
-                Your Mindfulness Coach!
-              </Typography>
-              {selectedCoach && (
-                <Card>
-                  <CardHeader
-                    avatar={
-                      <Avatar sx={{ bgcolor: red[500] }} aria-label="coach">
-                        {selectedCoach.fullName.charAt(0)}
-                      </Avatar>
-                    }
-                    action={
-                      <IconButton aria-label="settings">
-                        <MoreVertIcon />
-                      </IconButton>
-                    }
-                    title={selectedCoach.fullName}
-                    subheader={selectedCoach.expertise}
-                  />
-                  <CardMedia
-                    component="img"
-                    height="194"
-                    image={selectedCoach.profileImage}
-                    alt={selectedCoach.fullName}
-                  />
-                  <CardContent>
-                    <Typography variant="body2" color="text.secondary">
-                      Coaching: {selectedCoach.coaching}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      Age Group: {selectedCoach.ageGroup}
-                    </Typography>
-                  </CardContent>
-                  <CardActions disableSpacing>
-                    <IconButton aria-label="add to favorites">
-                      <FavoriteIcon />
-                    </IconButton>
-                    <IconButton aria-label="share">
-                      <ShareIcon />
-                    </IconButton>
-                    <button className="schedule-button" onClick={() => handleScheduleClick(selectedCoach)}>
-                      Schedule
-                    </button>
-                  </CardActions>
-                </Card>
-              )}
-            </div>
-          )}
-        </div>
+        {!showBookings && (
+          <div className={styles.precisionMatchContainer}>
+            <button className={styles.precisionMatchButton} onClick={handlePrecisionMatchClick}>
+              Precision Match
+            </button>
+          </div>
+        )}
+        {showBookings ? renderBookings() : renderCoaches()}
       </div>
       {showScheduleModal && (
         <CoachSchedulingModal

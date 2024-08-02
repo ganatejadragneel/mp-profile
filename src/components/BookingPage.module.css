@@ -1,0 +1,311 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+
+.bookingPage {
+  display: flex;
+  height: 100vh;
+}
+
+.bookingsList {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-gap: 20px;
+}
+
+.bookingCard {
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+
+.bookingCoachName {
+  font-size: 18px;
+  font-weight: bold;
+  margin: 0 0 10px 0;
+  color: #123B5E;
+}
+
+.bookingDetails {
+  font-size: 14px;
+  color: #666;
+  margin: 5px 0;
+}
+
+.logoColumn {
+  width: 10%;
+  background-color: #123B5E;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: top;
+  padding-left: 10px;
+  padding-top: 20px;
+}
+
+.logo {
+  width: 100%;
+  height: auto;
+  max-height: 50px;
+  filter: brightness(0) invert(1);
+}
+
+.sidebar {
+  width: 20%;
+  background-color: #fff;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 5%;
+}
+
+.sidebarButton {
+  display: flex;
+  align-items: center;
+  padding: 10px 20px;
+  font-size: 16px;
+  text-align: left;
+  background-color: #123B5E;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  margin-bottom: 20px;
+  width: 80%;
+  transition: background-color 0.3s ease;
+}
+
+.sidebarButton.active {
+  background-color: #5B3D54;
+}
+
+.iconCircle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #fff;
+  margin-right: 10px;
+}
+
+.iconCircle svg {
+  color: #123B5E;
+}
+
+.sidebarButton.active .iconCircle svg {
+  color: #5B3D54;
+}
+
+.logoutButton {
+  padding: 10px 20px;
+  font-size: 16px;
+  text-align: center;
+  background-color: #123B5E;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  margin-top: auto;
+  width: 80%;
+}
+
+.mainContent {
+  width: 70%;
+  background-color: #fff;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  border-left: 1px solid #d1d5db;
+}
+
+.titleContainer {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.pageTitle {
+  font-size: 33.6px; /* Increased by 1.4x from the assumed base size of 24px */
+  font-weight: bold;
+  color: #5B3D54;
+  margin-bottom: 20px;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.precisionMatchContainer {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 20px;
+}
+
+.precisionMatchButton {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #123B5E;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.coachList {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-gap: 20px;
+}
+
+.coachCard {
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #2c3e50;
+}
+
+.coachCardHeader {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+
+.coachAvatarContainer {
+  width: 120px;
+  height: 150px;
+  margin-right: 20px;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.coachAvatar {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.coachInfo {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-top: 20px; /* Add top padding to move content down */
+}
+
+.coachName {
+  font-size: 20px;
+  font-weight: bold;
+  color: #123B5E;
+  margin: 0 0 15px 0;
+}
+
+.coachDetails {
+  font-size: 14px;
+  color: #4B5563;
+  margin: 5px 0;
+}
+
+.coachLabel {
+  font-family: 'Montserrat', sans-serif;
+  color: #123B5E;
+  font-weight: 700;
+}
+
+.heartButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #123B5E;
+  padding: 0;
+  align-self: flex-start;
+  margin-top: 20px; /* Align heart icon with the name */
+}
+
+.coachActions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px; /* Add some space above the buttons */
+}
+
+.learnMoreButton,
+.scheduleButton {
+  padding: 10px 20px;
+  font-size: 14px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  flex: 1;
+  margin: 0 5px;
+}
+
+.learnMoreButton {
+  background-color: #fff;
+  color: #123B5E;
+  border: 1px solid #123B5E;
+}
+
+.scheduleButton {
+  background-color: #123B5E;
+  color: #fff;
+}
+
+.bookingsTableContainer {
+  width: 100%;
+  overflow-x: auto;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.bookingsTable {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin-top: 20px;
+  background-color: #fff;
+  border-left: 1px solid #e0e0e0;
+  border-right: 1px solid #e0e0e0;
+  border-bottom: 1px solid #e0e0e0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.bookingsTable th,
+.bookingsTable td {
+  padding: 12px 15px;
+  text-align: left;
+  font-weight: bold; /* Make all text bold */
+  font-size: 16px; /* Increased by 1.5x from the assumed base size of 14px */
+}
+
+.bookingsTable th {
+  background-color: #fff;
+  color: #123B5E;
+  text-transform: capitalize;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.bookingsTable td {
+  color: #5B3D54;
+}
+
+.bookingsTable tr:last-child td {
+  border-bottom: none;
+}
+
+.joinButton {
+  background-color: #5B3D54;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px; /* Increased to match table text */
+  font-family: 'Montserrat', sans-serif;
+  font-weight: bold; /* Make button text bold */
+  transition: background-color 0.3s;
+}
+
+.joinButton:hover {
+  background-color: #4a3144;
+}
