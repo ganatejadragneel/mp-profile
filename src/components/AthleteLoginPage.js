@@ -30,6 +30,12 @@ function AthleteLoginPage() {
     navigate('/');
   };
 
+  const handleForgotPassword = (e) => {
+    e.preventDefault();
+    // Implement forgot password functionality here
+    console.log('Forgot password clicked');
+  };
+
   return (
     <div className={styles["athlete-login-container"]}>
       <div className={styles["login-form-container"]}>
@@ -66,7 +72,7 @@ function AthleteLoginPage() {
             <button type="button" onClick={handleCancel} className={styles["cancel-button"]}>Cancel</button>
           </div>
         </form>
-        <a href="#" className={styles["forgot-password"]}>Forgot Password?</a>
+        <button onClick={handleForgotPassword} className={styles["forgot-password"]}>Forgot Password?</button>
         <div className={styles["divider"]}>
           <div className={styles["divider-line"]}></div>
           <span className={styles["divider-text"]}>or</span>

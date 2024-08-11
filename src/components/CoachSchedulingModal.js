@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import axios from 'axios';
 import { API_URL } from './api';
-import { format, addMinutes, parseISO, addDays } from 'date-fns';
+import { format, addMinutes, parseISO } from 'date-fns';
 import { generateChannelId } from '../utils';
 import styles from './CoachSchedulingModal.module.css';
 
@@ -18,20 +18,18 @@ function CoachSchedulingModal({ coach, onClose, athleteData }) {
     '17:00', '17:30'
   ];
 
-  useEffect(() => {
-    fetchCoachAvailability();
-  }, [coach._id]);
-
-  const fetchCoachAvailability = async () => {
+  const fetchCoachAvailability = useCallback(async () => {
     try {
-
       const response = await axios.get(`${API_URL}/coaches/${coach._id}/availability`);
-
       setCoachAvailability(response.data.availableTimings);
     } catch (error) {
       console.error('Error fetching coach availability:', error);
     }
-  };
+  }, [coach._id]);
+
+  useEffect(() => {
+    fetchCoachAvailability();
+  }, [fetchCoachAvailability]);
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
@@ -92,14 +90,14 @@ function CoachSchedulingModal({ coach, onClose, athleteData }) {
     }
   };
 
-  // Convert date strings to Date objects, adding one day to correct the offset
+  // Convert date strings to Date objects
   const availableDates = coachAvailability.map(a => parseISO(a.date));
 
   const availableTimes = selectedDate
-  ? (coachAvailability.find(a => format(parseISO(a.date), 'yyyy-MM-dd') === format(selectedDate, 'yyyy-MM-dd'))?.times || [])
-  : [];
+    ? (coachAvailability.find(a => format(parseISO(a.date), 'yyyy-MM-dd') === format(selectedDate, 'yyyy-MM-dd'))?.times || [])
+    : [];
 
-  const filteredTimeSlots = timeSlots.filter(time => availableTimes.includes(time))
+  const filteredTimeSlots = timeSlots.filter(time => availableTimes.includes(time));
 
   return (
     <div className={styles.modalOverlay}>

@@ -18,16 +18,22 @@ function CoachLoginPage() {
       navigate('/coach-profile', { state: { coachData } });
     } catch (error) {
       console.error('Error logging in:', error);
-      if (error.response && error.response.status === 401) {
-        setErrorMessage('Incorrect email or password');
-      } else {
-        setErrorMessage('An error occurred. Please try again.');
-      }
+      setErrorMessage(
+        error.response?.status === 401
+          ? 'Incorrect email or password'
+          : 'An error occurred. Please try again.'
+      );
     }
   };
 
   const handleCancel = () => {
     navigate('/');
+  };
+
+  const handleForgotPassword = (e) => {
+    e.preventDefault();
+    // Implement forgot password functionality
+    console.log('Forgot password clicked');
   };
 
   return (
@@ -66,7 +72,7 @@ function CoachLoginPage() {
             <button type="button" onClick={handleCancel} className={styles["cancel-button"]}>Cancel</button>
           </div>
         </form>
-        <a href="#" className={styles["forgot-password"]}>Forgot Password?</a>
+        <button onClick={handleForgotPassword} className={styles["forgot-password"]}>Forgot Password?</button>
         <div className={styles["divider"]}>
           <div className={styles["divider-line"]}></div>
           <span className={styles["divider-text"]}>or</span>

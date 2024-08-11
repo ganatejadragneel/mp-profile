@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { API_URL } from './api';
@@ -17,31 +17,31 @@ function BookingPage() {
   const [showScheduleModal, setShowScheduleModal] = useState(false);
   const [showBookings, setShowBookings] = useState(false);
   const [bookings, setBookings] = useState([]);
-  const [channelId, setChannelId] = useState('');
   const [activeButton, setActiveButton] = useState('myCoaches');
 
-  useEffect(() => {
-    fetchCoaches();
-    fetchAthleteBookings();
-  }, []);
-
-  const fetchCoaches = async () => {
+  const fetchCoaches = useCallback(async () => {
     try {
       const response = await axios.get(`${API_URL}/coaches`);
       setCoaches(response.data);
     } catch (error) {
       console.error('Error fetching coaches:', error);
     }
-  };
+  }, []);
 
-  const fetchAthleteBookings = async () => {
+  const fetchAthleteBookings = useCallback(async () => {
     try {
       const response = await axios.get(`${API_URL}/athletes/${athleteData._id}/bookings`);
       setBookings(response.data);
     } catch (error) {
       console.error('Error fetching athlete bookings:', error);
     }
-  };
+  }, [athleteData._id]);
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => {
+    fetchCoaches();
+    fetchAthleteBookings();
+  }, [fetchCoaches, fetchAthleteBookings]);
 
   const handleLogout = () => {
     navigate('/');

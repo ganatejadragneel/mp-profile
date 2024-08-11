@@ -111,6 +111,10 @@
   font-size: 0.875rem;
   color: #3b82f6;
   text-decoration: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
 }
 
 .forgot-password:hover {
