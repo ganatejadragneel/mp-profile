@@ -77,8 +77,8 @@ function CoachSessionsPage() {
     }
   };
   
-  const handleJoinSession = (channelId) => {
-    window.open(`http://localhost:4321/channel/${channelId}`, '_blank');
+  const handleJoinSession = (zoomJoinUrl) => {
+    window.open(zoomJoinUrl, '_blank');
   };
   
   const handleDateClick = (date) => {
@@ -194,7 +194,7 @@ function CoachSessionsPage() {
     const upcomingSessions = sessions
       .filter(session => session.bookingDate >= currentDate)
       .sort((a, b) => new Date(a.bookingDate) - new Date(b.bookingDate));
-    
+  
     return (
       <div className={styles.sessionsTableContainer}>
         <table className={styles.sessionsTable}>
@@ -203,7 +203,7 @@ function CoachSessionsPage() {
               <th>Athlete Name</th>
               <th>Date</th>
               <th>Time</th>
-              <th>Channel ID</th>
+              <th>Zoom Meeting ID</th>
               <th>Status</th>
             </tr>
           </thead>
@@ -215,12 +215,12 @@ function CoachSessionsPage() {
                   <td>{session.athleteName}</td>
                   <td>{session.bookingDate}</td>
                   <td>{session.startTime}</td>
-                  <td>{session.channelId}</td>
+                  <td>{session.zoomMeetingId}</td>
                   <td>
                     {status === 'Join' ? (
                       <button
                         className={styles.joinButton}
-                        onClick={() => handleJoinSession(session.channelId)}
+                        onClick={() => handleJoinSession(session.zoomJoinUrl)}
                       >
                         Join
                       </button>

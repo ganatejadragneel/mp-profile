@@ -43,10 +43,9 @@ function CoachSchedulingModal({ coach, onClose, athleteData }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const channelId = generateChannelId();
       const bookingTimestamp = new Date().toISOString();
       const endTime = format(addMinutes(new Date(`2000-01-01T${selectedStartTime}`), 30), 'HH:mm');
-
+  
       const updatedAthleteData = {
         ...athleteData,
         bookings: [
@@ -55,7 +54,6 @@ function CoachSchedulingModal({ coach, onClose, athleteData }) {
             coachId: coach._id,
             coachName: coach.fullName,
             coachEmail: coach.email,
-            channelId,
             bookingTimestamp,
             bookingDate: format(selectedDate, 'yyyy-MM-dd'),
             startTime: selectedStartTime,
@@ -63,27 +61,9 @@ function CoachSchedulingModal({ coach, onClose, athleteData }) {
           },
         ],
       };
-
+  
       await axios.put(`${API_URL}/athletes/${athleteData._id}`, updatedAthleteData);
-
-      const updatedCoachData = {
-        ...coach,
-        bookings: [
-          ...(coach.bookings || []),
-          {
-            athleteId: athleteData._id,
-            athleteName: athleteData.fullName,
-            channelId,
-            bookingTimestamp,
-            bookingDate: format(selectedDate, 'yyyy-MM-dd'),
-            startTime: selectedStartTime,
-            endTime,
-          },
-        ],
-      };
-
-      await axios.put(`${API_URL}/coaches/${coach._id}`, updatedCoachData);
-
+  
       onClose();
     } catch (error) {
       console.error('Error scheduling coach:', error);

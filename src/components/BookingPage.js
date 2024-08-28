@@ -96,8 +96,8 @@ function BookingPage() {
     }
   };
 
-  const handleJoinMeeting = (channelId) => {
-    window.open(`http://localhost:4321/channel/${channelId}`, '_blank');
+  const handleJoinMeeting = (zoomJoinUrl) => {
+    window.open(zoomJoinUrl, '_blank');
   };
 
   const renderCoaches = () => (
@@ -146,7 +146,7 @@ function BookingPage() {
               <th>Coach Name</th>
               <th>Date</th>
               <th>Time</th>
-              <th>Channel ID</th>
+              <th>Zoom Meeting ID</th>
               <th>Status</th>
             </tr>
           </thead>
@@ -158,12 +158,12 @@ function BookingPage() {
                   <td>{booking.coachName}</td>
                   <td>{booking.bookingDate}</td>
                   <td>{`${booking.startTime} - ${booking.endTime}`}</td>
-                  <td>{booking.channelId}</td>
+                  <td>{booking.zoomMeetingId}</td>
                   <td>
                     {status === 'Join' ? (
                       <button
                         className={styles.joinButton}
-                        onClick={() => handleJoinMeeting(booking.channelId)}
+                        onClick={() => handleJoinMeeting(booking.zoomJoinUrl)}
                       >
                         Join
                       </button>
