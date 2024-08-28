@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import axios from 'axios';
-import { API_URL } from './api';
+import { API_URL } from '../config';
 import { format, addMinutes, parseISO } from 'date-fns';
 import { generateChannelId } from '../utils';
 import styles from './CoachSchedulingModal.module.css';

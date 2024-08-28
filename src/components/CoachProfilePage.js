@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import styles from './CoachProfilePage.module.css';
-import { API_URL } from './api';
+import { API_URL } from '../config';
 import defaultImg from '../assets/haik.jpeg';
 
 function CoachProfilePage() {

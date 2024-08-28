@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import styles from './EditAthleteProfile.module.css';
-import { API_URL } from './api';
+import { API_URL } from '../config';
 
 function EditAthleteProfile() {
   const location = useLocation();

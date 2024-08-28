@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { API_URL } from './api';
+import { API_URL } from '../config';
 import logo from '../assets/logo.png';
 import CoachSchedulingModal from './CoachSchedulingModal';
 import styles from './BookingPage.module.css';

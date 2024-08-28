@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
-import { API_URL } from './api';
+import { API_URL } from '../config';
 import logo from '../assets/logo.png';
 import styles from './CoachSessionsPage.module.css';
 import { Calendar as CalendarIcon, User, BookOpen } from 'lucide-react';
