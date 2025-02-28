@@ -1,70 +1,154 @@
-# Getting Started with Create React App
+# Mindful Performance Frontend
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A web application that connects athletes with mental performance coaches to improve their athletic performance through mental coaching.
 
-## Available Scripts
+## Overview
 
-In the project directory, you can run:
+Mindful Performance is a platform that facilitates connections between athletes and mental performance coaches. The application provides a user-friendly interface for athletes to find and book sessions with coaches who can help them improve their mental approach to sports and competition.
 
-### `npm start`
+## Features
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- **User Authentication**: Separate login and signup flows for athletes and coaches
+- **Profile Management**: Complete profiles with personal information and preferences
+- **Coach Discovery**: Athletes can browse through coaches and find the right match
+- **Session Booking**: Integrated scheduling system for booking coaching sessions
+- **Availability Management**: Coaches can set and manage their availability
+- **Video Conferencing**: Integration with Zoom for virtual coaching sessions
+- **Responsive Design**: Works on desktop and mobile devices
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Tech Stack
 
-### `npm test`
+- **Framework**: React.js
+- **Routing**: React Router
+- **Styling**: CSS Modules and standard CSS
+- **Icons**: Lucide React
+- **HTTP Requests**: Axios
+- **Date Handling**: date-fns
+- **Calendar**: react-calendar, react-datepicker
+- **Video Integration**: Agora SDK
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Project Structure
 
-### `npm run build`
+```
+mp-profiles/
+├── public/                # Static assets
+│   ├── favicon.ico
+│   ├── icon.png
+│   ├── landing.jpg
+│   └── ...
+├── src/
+│   ├── assets/            # Application assets
+│   │   ├── haik.jpeg
+│   │   ├── landing.jpg
+│   │   └── logo.png
+│   ├── components/        # React components
+│   │   ├── AthleteLoginPage.js
+│   │   ├── CoachLoginPage.js
+│   │   ├── BookingPage.js
+│   │   ├── CoachProfilePage.js
+│   │   ├── StudentProfilePage.js
+│   │   └── ...
+│   ├── config.js          # Configuration settings
+│   ├── App.js             # Main application component
+│   ├── index.js           # Entry point
+│   └── utils.js           # Utility functions
+├── .env                   # Environment variables for Zoom integration
+├── .env.development       # Development environment variables
+├── .env.production        # Production environment variables
+└── package.json           # Project dependencies and scripts
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Getting Started
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Prerequisites
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- Node.js (v14 or newer)
+- npm or yarn
 
-### `npm run eject`
+### Installation
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/yourusername/mp-profiles.git
+   cd mp-profiles
+   ```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+2. Install dependencies:
+   ```bash
+   npm install
+   # or
+   yarn install
+   ```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+3. Set up environment variables:
+   - Create `.env.development.local` file based on `.env.development`
+   - Set the `REACT_APP_API_URL` to your backend API endpoint
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### Running the Development Server
 
-## Learn More
+```bash
+npm start
+# or
+yarn start
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+This will start the development server on [http://localhost:3000](http://localhost:3000).
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## User Flows
 
-### Code Splitting
+### Athlete Flow
+1. Athlete signs up or logs in
+2. Completes profile questionnaire
+3. Browses available coaches
+4. Books a session with a coach
+5. Joins video call when session time arrives
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+### Coach Flow
+1. Coach signs up or logs in
+2. Completes profile questionnaire
+3. Sets availability
+4. Views booked sessions
+5. Joins video call for scheduled sessions
 
-### Analyzing the Bundle Size
+## API Integration
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+The frontend communicates with the backend API to:
+- Save and retrieve user profiles
+- Fetch coach listings
+- Manage bookings and schedules
+- Handle authentication
 
-### Making a Progressive Web App
+The API endpoints are defined in `src/components/api.js`.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+## Zoom Integration
 
-### Advanced Configuration
+The application integrates with Zoom for video conferencing. Zoom API keys are stored in environment variables.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+## Deployment
 
-### Deployment
+The application can be deployed using any static site hosting service:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+1. Build the production-ready bundle:
+   ```bash
+   npm run build
+   # or
+   yarn build
+   ```
 
-### `npm run build` fails to minify
+2. Deploy the contents of the `build` folder to your hosting provider.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## License
+
+This project is licensed under the MIT License.
+
+## Contact
+
+For questions or support, please contact the Mindful Performance team.
